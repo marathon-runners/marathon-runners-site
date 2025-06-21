@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { DashboardProvider } from '@/components/dashboard/DashboardContext';
-import { LeftSidebar } from '@/components/dashboard/LeftSidebar';
+import { LeftSidebar } from '@/components/dashboard/left-sidebar';
 import { ResizablePanel } from '@/components/dashboard/ResizablePanel';
-import { RightSidebar } from '@/components/dashboard/RightSidebar';
+import { RightSidebar } from '@/components/dashboard/right-sidebar';
 
 export default function DashboardLayout({
   children,

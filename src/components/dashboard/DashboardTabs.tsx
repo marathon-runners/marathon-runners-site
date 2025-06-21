@@ -16,7 +16,7 @@ import { JobSettings } from './JobSettings';
 type TabType = 'overview' | 'logs' | 'settings';
 
 export function DashboardTabs() {
-  const { selectedJob } = useDashboard();
+  const { selectedJob, isLoading } = useDashboard();
   const t = useTranslations('Dashboard');
   const [activeTab, setActiveTab] = useState<TabType>('overview');
 
@@ -27,6 +27,15 @@ export function DashboardTabs() {
   ];
 
   const renderTabContent = () => {
+    if (isLoading) {
+      return (
+        <div className="text-center text-gray-500 py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p>Loading...</p>
+        </div>
+      );
+    }
+
     if (!selectedJob) {
       return (
         <div className="text-center text-gray-500 py-12">

@@ -3,221 +3,257 @@
 import type { ReactNode } from 'react';
 import type { Job } from '@/types/Job';
 
-import { createContext, use, useState } from 'react';
+import { useUser } from '@clerk/nextjs';
+import { createContext, use, useEffect, useState } from 'react';
 
-// Mock jobs data
-export const mockJobs: Job[] = [
-  {
-    id: 1,
-    name: 'ML Training Job',
-    description: 'Training a large language model on customer data',
-    status: 'running' as const,
-    progress: 65,
-    projectId: 1,
-    startedAt: '2024-01-15T10:30:00Z',
-    estimatedCompletion: '2024-01-15T14:45:00Z',
-    hardwareType: 'NVIDIA A100',
-    region: 'US-East-1',
-    costPerHour: 2.40,
-    totalCost: 15.60,
-    runtime: '6h 30m',
-    notifications: {
-      emailOnCompletion: true,
-      emailOnFailure: false,
-      slackNotifications: false,
-    },
-    autoScaling: {
-      enabled: false,
-      minInstances: 1,
-      maxInstances: 5,
-    },
-  },
-  {
-    id: 2,
-    name: 'Data Processing',
-    description: 'Processing customer analytics data',
-    status: 'completed' as const,
-    progress: 100,
-    projectId: 1,
-    startedAt: '2024-01-15T08:00:00Z',
-    estimatedCompletion: '2024-01-15T12:00:00Z',
-    hardwareType: 'Intel Xeon',
-    region: 'US-East-1',
-    costPerHour: 0.80,
-    totalCost: 3.20,
-    runtime: '4h 0m',
-    notifications: {
-      emailOnCompletion: true,
-      emailOnFailure: true,
-      slackNotifications: false,
-    },
-    autoScaling: {
-      enabled: false,
-      minInstances: 1,
-      maxInstances: 3,
-    },
-  },
-  {
-    id: 3,
-    name: 'Model Inference',
-    status: 'pending' as const,
-    progress: 0,
-    projectId: 1,
-    startedAt: null,
-    estimatedCompletion: null,
-    hardwareType: 'RTX 4090',
-    region: 'US-West-2',
-    costPerHour: 1.98,
-    totalCost: 0,
-    runtime: '0h 0m',
-    notifications: {
-      emailOnCompletion: false,
-      emailOnFailure: false,
-      slackNotifications: true,
-    },
-    autoScaling: {
-      enabled: true,
-      minInstances: 2,
-      maxInstances: 10,
-    },
-  },
-  {
-    id: 4,
-    name: 'Simulation Run',
-    description: 'Running physics simulation for research',
-    status: 'running' as const,
-    progress: 35,
-    projectId: 2,
-    startedAt: '2024-01-15T11:15:00Z',
-    estimatedCompletion: '2024-01-15T18:30:00Z',
-    hardwareType: 'NVIDIA H100',
-    region: 'EU-Central-1',
-    costPerHour: 5.46,
-    totalCost: 21.84,
-    runtime: '2h 15m',
-    notifications: {
-      emailOnCompletion: true,
-      emailOnFailure: true,
-      slackNotifications: true,
-    },
-    autoScaling: {
-      enabled: true,
-      minInstances: 1,
-      maxInstances: 8,
-    },
-  },
-  {
-    id: 5,
-    name: 'Analysis Job',
-    description: 'Statistical analysis of experimental data',
-    status: 'failed' as const,
-    progress: 23,
-    projectId: 2,
-    startedAt: '2024-01-15T09:45:00Z',
-    estimatedCompletion: null,
-    hardwareType: 'NVIDIA A100',
-    region: 'US-East-1',
-    costPerHour: 2.40,
-    totalCost: 1.84,
-    runtime: '0h 46m',
-    notifications: {
-      emailOnCompletion: false,
-      emailOnFailure: true,
-      slackNotifications: false,
-    },
-    autoScaling: {
-      enabled: false,
-      minInstances: 1,
-      maxInstances: 5,
-    },
-  },
-  {
-    id: 6,
-    name: 'Batch Processing',
-    description: 'Batch processing of log files',
-    status: 'completed' as const,
-    progress: 100,
-    projectId: 3,
-    startedAt: '2024-01-14T20:00:00Z',
-    estimatedCompletion: '2024-01-15T02:00:00Z',
-    hardwareType: 'Intel Xeon',
-    region: 'Asia-Pacific-1',
-    costPerHour: 0.92,
-    totalCost: 5.52,
-    runtime: '6h 0m',
-    notifications: {
-      emailOnCompletion: true,
-      emailOnFailure: false,
-      slackNotifications: false,
-    },
-    autoScaling: {
-      enabled: false,
-      minInstances: 1,
-      maxInstances: 4,
-    },
-  },
-];
-
-export const mockProjects = [
-  {
-    id: 1,
-    name: 'Default Project',
-    isDefault: true,
-  },
-  {
-    id: 2,
-    name: 'Research Project',
-    isDefault: false,
-  },
-  {
-    id: 3,
-    name: 'Production Workloads',
-    isDefault: false,
-  },
-];
-
-export type Project = typeof mockProjects[0];
+// Define Project type locally since we can't import from DatabaseService
+export type Project = {
+  id: number;
+  name: string;
+  description?: string;
+  userId: string;
+  isDefault: boolean;
+  budget?: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 type DashboardContextType = {
   jobs: Job[];
   projects: Project[];
   selectedJobId: number | null;
   selectedJob: Job | null;
+  isLoading: boolean;
   setSelectedJobId: (jobId: number | null) => void;
   getJobsByProject: (projectId: number) => Job[];
-  updateJob: (jobId: number, updates: Partial<Job>) => void;
+  updateJob: (jobId: number, updates: Partial<Job>) => Promise<void>;
+  createJob: (jobData: { name: string; description?: string; projectId: number }) => Promise<void>;
+  createProject: (projectData: { name: string; description?: string }) => Promise<void>;
+  updateProject: (projectId: number, projectData: { name: string; description?: string }) => Promise<void>;
+  deleteProject: (projectId: number) => Promise<void>;
+  refreshData: () => Promise<void>;
 };
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
 export function DashboardProvider({ children }: { children: ReactNode }) {
-  const [jobs, setJobs] = useState<Job[]>(mockJobs);
-  const [selectedJobId, setSelectedJobId] = useState<number | null>(1); // Default to first job
+  const { user } = useUser();
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const selectedJob = jobs.find(job => job.id === selectedJobId) || null;
+
+  const refreshData = async () => {
+    if (!user) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const [projectsRes, jobsRes] = await Promise.all([
+        fetch('/api/projects'),
+        fetch('/api/jobs'),
+      ]);
+
+      if (!projectsRes.ok || !jobsRes.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const projectsData = await projectsRes.json();
+      const jobsData = await jobsRes.json();
+
+      setProjects(projectsData.projects || []);
+      setJobs(jobsData.jobs || []);
+
+      // Set default selected job if none selected
+      if (!selectedJobId && jobsData.jobs && jobsData.jobs.length > 0) {
+        setSelectedJobId(jobsData.jobs[0]?.id || null);
+      }
+    } catch (error) {
+      console.error('Failed to load dashboard data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      refreshData();
+    }
+  }, [user]);
 
   const getJobsByProject = (projectId: number) => {
     return jobs.filter(job => job.projectId === projectId);
   };
 
-  const updateJob = (jobId: number, updates: Partial<Job>) => {
-    setJobs(prevJobs =>
-      prevJobs.map(job =>
-        job.id === jobId ? { ...job, ...updates } : job,
-      ),
-    );
+  const handleUpdateJob = async (jobId: number, updates: Partial<Job>) => {
+    try {
+      const response = await fetch('/api/jobs', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jobId,
+          ...updates,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update job');
+      }
+
+      // Update local state
+      setJobs(prevJobs =>
+        prevJobs.map(job =>
+          job.id === jobId ? { ...job, ...updates } : job,
+        ),
+      );
+    } catch (error) {
+      console.error('Failed to update job:', error);
+      throw error;
+    }
+  };
+
+  const handleCreateJob = async (jobData: { name: string; description?: string; projectId: number }) => {
+    if (!user) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...jobData,
+          hardwareType: 'Intel Xeon', // Default hardware type
+          region: 'US-East-1', // Default region
+          costPerHour: 0.80, // Default cost
+          notifications: {
+            emailOnCompletion: true,
+            emailOnFailure: true,
+            slackNotifications: false,
+          },
+          autoScaling: {
+            enabled: false,
+            minInstances: 1,
+            maxInstances: 1,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create job');
+      }
+
+      const data = await response.json();
+      setJobs(prevJobs => [data.job, ...prevJobs]);
+      setSelectedJobId(data.job?.id || null);
+    } catch (error) {
+      console.error('Failed to create job:', error);
+      throw error;
+    }
+  };
+
+  const handleCreateProject = async (projectData: { name: string; description?: string }) => {
+    if (!user) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(projectData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create project');
+      }
+
+      const data = await response.json();
+      setProjects(prevProjects => [...prevProjects, data.project]);
+    } catch (error) {
+      console.error('Failed to create project:', error);
+      throw error;
+    }
+  };
+
+  const handleUpdateProject = async (projectId: number, projectData: { name: string; description?: string }) => {
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          projectId,
+          ...projectData,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update project');
+      }
+
+      setProjects(prevProjects =>
+        prevProjects.map(project =>
+          project.id === projectId ? { ...project, ...projectData } : project,
+        ),
+      );
+    } catch (error) {
+      console.error('Failed to update project:', error);
+      throw error;
+    }
+  };
+
+  const handleDeleteProject = async (projectId: number) => {
+    try {
+      const response = await fetch(`/api/projects?projectId=${projectId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete project');
+      }
+
+      // Remove project and its jobs from local state
+      setProjects(prevProjects => prevProjects.filter(p => p.id !== projectId));
+      setJobs(prevJobs => prevJobs.filter(j => j.projectId !== projectId));
+
+      // Clear selected job if it was in the deleted project
+      if (selectedJob && selectedJob.projectId === projectId) {
+        const remainingJobs = jobs.filter(j => j.projectId !== projectId);
+        setSelectedJobId(remainingJobs.length > 0 ? remainingJobs[0]?.id || null : null);
+      }
+    } catch (error) {
+      console.error('Failed to delete project:', error);
+      throw error;
+    }
   };
 
   return (
     <DashboardContext
       value={{
         jobs,
-        projects: mockProjects,
+        projects,
         selectedJobId,
         selectedJob,
+        isLoading,
         setSelectedJobId,
         getJobsByProject,
-        updateJob,
+        updateJob: handleUpdateJob,
+        createJob: handleCreateJob,
+        createProject: handleCreateProject,
+        updateProject: handleUpdateProject,
+        deleteProject: handleDeleteProject,
+        refreshData,
       }}
     >
       {children}

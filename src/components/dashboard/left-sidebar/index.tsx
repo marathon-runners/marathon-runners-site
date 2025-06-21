@@ -15,7 +15,17 @@ import { ProjectSettingsDialog } from './ProjectSettingsDialog';
 import { UserAccountSection } from './UserAccountSection';
 
 export function LeftSidebar() {
-  const { projects, getJobsByProject, selectedJobId, setSelectedJobId } = useDashboard();
+  const {
+    projects,
+    getJobsByProject,
+    selectedJobId,
+    setSelectedJobId,
+    isLoading,
+    createJob,
+    createProject,
+    updateProject,
+    deleteProject,
+  } = useDashboard();
   const t = useTranslations('Dashboard');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set([1])); // Default project expanded
@@ -49,28 +59,40 @@ export function LeftSidebar() {
     setShowProjectSettingsDialog(true);
   };
 
-  const handleCreateJob = (jobData: { name: string; description: string; projectId: number }) => {
-    // TODO: Implement job creation logic
-    // eslint-disable-next-line no-console
-    console.log('Creating job:', jobData);
+  const handleCreateJob = async (jobData: { name: string; description: string; projectId: number }) => {
+    try {
+      await createJob(jobData);
+    } catch (error) {
+      console.error('Failed to create job:', error);
+      // TODO: Show error message to user
+    }
   };
 
-  const handleCreateProject = (projectData: { name: string; description: string }) => {
-    // TODO: Implement project creation logic
-    // eslint-disable-next-line no-console
-    console.log('Creating project:', projectData);
+  const handleCreateProject = async (projectData: { name: string; description: string }) => {
+    try {
+      await createProject(projectData);
+    } catch (error) {
+      console.error('Failed to create project:', error);
+      // TODO: Show error message to user
+    }
   };
 
-  const handleUpdateProject = (projectId: number, projectData: { name: string; description: string }) => {
-    // TODO: Implement project update logic
-    // eslint-disable-next-line no-console
-    console.log('Updating project:', projectId, projectData);
+  const handleUpdateProject = async (projectId: number, projectData: { name: string; description: string }) => {
+    try {
+      await updateProject(projectId, projectData);
+    } catch (error) {
+      console.error('Failed to update project:', error);
+      // TODO: Show error message to user
+    }
   };
 
-  const handleDeleteProject = (projectId: number) => {
-    // TODO: Implement project deletion logic
-    // eslint-disable-next-line no-console
-    console.log('Deleting project:', projectId);
+  const handleDeleteProject = async (projectId: number) => {
+    try {
+      await deleteProject(projectId);
+    } catch (error) {
+      console.error('Failed to delete project:', error);
+      // TODO: Show error message to user
+    }
   };
 
   const closeNewJobDialog = () => {
@@ -114,6 +136,7 @@ export function LeftSidebar() {
         <button
           onClick={() => setShowNewProjectDialog(true)}
           className="w-full mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
+          disabled={isLoading}
         >
           <PlusIcon className="h-4 w-4" />
           New Project
@@ -122,25 +145,46 @@ export function LeftSidebar() {
 
       {/* Projects and Jobs */}
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="space-y-2">
-          {projects.map((project) => {
-            const projectJobs = getJobsByProject(project.id);
+        {isLoading
+          ? (
+              <div className="text-center text-gray-500 py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="mt-2 text-sm">Loading projects...</p>
+              </div>
+            )
+          : (
+              <div className="space-y-2">
+                {projects.map((project) => {
+                  const projectJobs = getJobsByProject(project.id);
 
-            return (
-              <ProjectItem
-                key={project.id}
-                project={project}
-                projectJobs={projectJobs}
-                isExpanded={expandedProjects.has(project.id)}
-                selectedJobId={selectedJobId}
-                onToggleProject={toggleProject}
-                onJobClick={handleJobClick}
-                onCreateJob={handleCreateJobInProject}
-                onProjectSettings={handleProjectSettings}
-              />
-            );
-          })}
-        </div>
+                  return (
+                    <ProjectItem
+                      key={project.id}
+                      project={project}
+                      projectJobs={projectJobs}
+                      isExpanded={expandedProjects.has(project.id)}
+                      selectedJobId={selectedJobId}
+                      onToggleProject={toggleProject}
+                      onJobClick={handleJobClick}
+                      onCreateJob={handleCreateJobInProject}
+                      onProjectSettings={handleProjectSettings}
+                    />
+                  );
+                })}
+
+                {projects.length === 0 && (
+                  <div className="text-center text-gray-500 py-8">
+                    <p className="text-sm">No projects yet</p>
+                    <button
+                      onClick={() => setShowNewProjectDialog(true)}
+                      className="text-blue-600 hover:text-blue-700 text-sm mt-1"
+                    >
+                      Create your first project
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
       </div>
 
       {/* User Account Section */}

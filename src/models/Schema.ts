@@ -1,4 +1,4 @@
-import { boolean, decimal, integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, decimal, integer, json, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 // This file defines the structure of your database tables using the Drizzle ORM.
 
@@ -33,7 +33,9 @@ export const jobsSchema = pgTable('jobs', {
   id: serial('id').primaryKey(),
   projectId: integer('project_id').references(() => projectsSchema.id),
   name: varchar('name', { length: 255 }).notNull(),
+  description: text('description'),
   status: varchar('status', { length: 50 }).notNull().default('pending'), // 'pending', 'running', 'completed', 'failed', 'stopped'
+  progress: integer('progress').default(0), // 0-100 percentage
   hardwareType: varchar('hardware_type', { length: 100 }).notNull(),
   region: varchar('region', { length: 100 }).notNull(),
   cpuCores: integer('cpu_cores'),
@@ -44,9 +46,12 @@ export const jobsSchema = pgTable('jobs', {
   costPerHour: decimal('cost_per_hour', { precision: 8, scale: 4 }),
   totalCost: decimal('total_cost', { precision: 10, scale: 2 }),
   estimatedDuration: integer('estimated_duration_minutes'),
+  estimatedCompletion: timestamp('estimated_completion', { mode: 'date' }),
   dockerImage: varchar('docker_image', { length: 500 }),
   command: text('command'),
   environmentVars: text('environment_vars'), // JSON string
+  notifications: json('notifications'), // JSON object for notification settings
+  autoScaling: json('auto_scaling'), // JSON object for auto-scaling settings
   startedAt: timestamp('started_at', { mode: 'date' }),
   completedAt: timestamp('completed_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),

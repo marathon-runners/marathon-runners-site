@@ -1,3 +1,4 @@
+// TODO: we should use prisma types (after we create the prisma schema)
 export type Job = {
   id: number;
   name: string;
