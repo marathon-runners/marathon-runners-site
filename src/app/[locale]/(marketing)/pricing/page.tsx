@@ -97,20 +97,52 @@ export default async function Pricing(props: IPricingProps) {
       category: 'GPU Compute',
       icon: CpuChipIcon,
       items: [
-        { name: 'NVIDIA H100', price: '$8.00/hr', specs: '128GB HBM3, 3.35 TFLOPS FP64' },
-        { name: 'NVIDIA A100', price: '$2.50/hr', specs: '80GB HBM2e, 1.56 TFLOPS FP64' },
-        { name: 'NVIDIA RTX 4090', price: '$0.50/hr', specs: '24GB GDDR6X, 0.83 TFLOPS FP64' },
-        { name: 'NVIDIA V100', price: '$1.20/hr', specs: '32GB HBM2, 1.25 TFLOPS FP64' },
+        {
+          name: 'NVIDIA H100',
+          price: '$8.00/hr',
+          specs: '128GB HBM3, 3.35 TFLOPS FP64',
+        },
+        {
+          name: 'NVIDIA A100',
+          price: '$2.50/hr',
+          specs: '80GB HBM2e, 1.56 TFLOPS FP64',
+        },
+        {
+          name: 'NVIDIA RTX 4090',
+          price: '$0.50/hr',
+          specs: '24GB GDDR6X, 0.83 TFLOPS FP64',
+        },
+        {
+          name: 'NVIDIA V100',
+          price: '$1.20/hr',
+          specs: '32GB HBM2, 1.25 TFLOPS FP64',
+        },
       ],
     },
     {
       category: 'CPU Compute',
       icon: CloudIcon,
       items: [
-        { name: 'AMD EPYC 7763', price: '$0.25/hr', specs: '64 cores, 256GB RAM' },
-        { name: 'Intel Xeon 8380', price: '$0.30/hr', specs: '40 cores, 256GB RAM' },
-        { name: 'AMD EPYC 7713', price: '$0.20/hr', specs: '64 cores, 128GB RAM' },
-        { name: 'Intel Xeon 8375C', price: '$0.15/hr', specs: '32 cores, 128GB RAM' },
+        {
+          name: 'AMD EPYC 7763',
+          price: '$0.25/hr',
+          specs: '64 cores, 256GB RAM',
+        },
+        {
+          name: 'Intel Xeon 8380',
+          price: '$0.30/hr',
+          specs: '40 cores, 256GB RAM',
+        },
+        {
+          name: 'AMD EPYC 7713',
+          price: '$0.20/hr',
+          specs: '64 cores, 128GB RAM',
+        },
+        {
+          name: 'Intel Xeon 8375C',
+          price: '$0.15/hr',
+          specs: '32 cores, 128GB RAM',
+        },
       ],
     },
   ];
@@ -166,7 +198,10 @@ export default async function Pricing(props: IPricingProps) {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {pricingTiers.map((tier, index) => (
-              <div key={index} className={`relative ${tier.popular ? 'transform scale-105' : ''}`}>
+              <div
+                key={index}
+                className={`relative ${tier.popular ? 'transform scale-105' : ''}`}
+              >
                 {tier.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
@@ -176,7 +211,9 @@ export default async function Pricing(props: IPricingProps) {
                 )}
 
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-all duration-300">
-                  <div className={`bg-gradient-to-r ${tier.gradient} p-6 text-white`}>
+                  <div
+                    className={`bg-gradient-to-r ${tier.gradient} p-6 text-white`}
+                  >
                     <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
                     <p className="text-white/90 mb-4">{tier.description}</p>
                     <div className="flex items-baseline">
@@ -232,15 +269,24 @@ export default async function Pricing(props: IPricingProps) {
                   <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-12 h-12 rounded-lg flex items-center justify-center mr-4">
                     <category.icon className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900">{category.category}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    {category.category}
+                  </h3>
                 </div>
 
                 <div className="space-y-4">
                   {category.items.map((item, idx) => (
-                    <div key={idx} className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow duration-300">
+                    <div
+                      key={idx}
+                      className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow duration-300"
+                    >
                       <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-semibold text-gray-900">{item.name}</h4>
-                        <span className="text-lg font-bold text-blue-600">{item.price}</span>
+                        <h4 className="font-semibold text-gray-900">
+                          {item.name}
+                        </h4>
+                        <span className="text-lg font-bold text-blue-600">
+                          {item.price}
+                        </span>
                       </div>
                       <p className="text-gray-600 text-sm">{item.specs}</p>
                     </div>
@@ -270,7 +316,9 @@ export default async function Pricing(props: IPricingProps) {
                 <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <feature.icon className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
                 <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
@@ -293,7 +341,9 @@ export default async function Pricing(props: IPricingProps) {
                 How is billing calculated?
               </h3>
               <p className="text-gray-600">
-                Billing is calculated per second of actual usage. You only pay for the time your instances are running, with no minimum charges or setup fees.
+                Billing is calculated per second of actual usage. You only pay
+                for the time your instances are running, with no minimum charges
+                or setup fees.
               </p>
             </div>
 
@@ -302,7 +352,9 @@ export default async function Pricing(props: IPricingProps) {
                 Are there volume discounts available?
               </h3>
               <p className="text-gray-600">
-                Yes! We offer automatic volume discounts starting at $1,000/month usage. Enterprise customers can also negotiate custom pricing for reserved capacity.
+                Yes! We offer automatic volume discounts starting at
+                $1,000/month usage. Enterprise customers can also negotiate
+                custom pricing for reserved capacity.
               </p>
             </div>
 
@@ -311,7 +363,9 @@ export default async function Pricing(props: IPricingProps) {
                 What regions are available?
               </h3>
               <p className="text-gray-600">
-                We operate in 15+ regions globally including US East/West, Europe, Asia-Pacific, and more. Pricing may vary slightly by region based on local infrastructure costs.
+                We operate in 15+ regions globally including US East/West,
+                Europe, Asia-Pacific, and more. Pricing may vary slightly by
+                region based on local infrastructure costs.
               </p>
             </div>
           </div>
@@ -321,9 +375,7 @@ export default async function Pricing(props: IPricingProps) {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-6">
-            Ready to Get Started?
-          </h2>
+          <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
           <p className="text-xl mb-10 text-blue-100">
             Start with our free tier and scale as you grow
           </p>

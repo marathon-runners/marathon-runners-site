@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { useDashboard } from '@/components/dashboard/DashboardContext';
+import { useProjects } from '@/components/dashboard/ProjectsContext';
 
 type MonitoringData = {
   cpuUsage: number;
@@ -14,7 +14,7 @@ type MonitoringData = {
 };
 
 export function MonitoringTab() {
-  const { selectedJob } = useDashboard();
+  const { selectedJob } = useProjects();
   const t = useTranslations('Dashboard');
   const [monitoringData, setMonitoringData] = useState<MonitoringData>({
     cpuUsage: 0,
@@ -30,11 +30,21 @@ export function MonitoringTab() {
 
     const generateMockData = () => {
       // Generate realistic data based on job status and progress
-      const baseLoad = selectedJob.status === 'running' ? selectedJob.progress : 0;
+      const baseLoad
+        = selectedJob.status === 'running' ? selectedJob.progress : 0;
       setMonitoringData({
-        cpuUsage: selectedJob.status === 'running' ? Math.min(75 + (baseLoad * 0.2), 95) : 0,
-        gpuUsage: selectedJob.status === 'running' ? Math.min(85 + (baseLoad * 0.1), 98) : 0,
-        memoryUsage: selectedJob.status === 'running' ? Math.min(40 + (baseLoad * 0.3), 80) : 0,
+        cpuUsage:
+          selectedJob.status === 'running'
+            ? Math.min(75 + baseLoad * 0.2, 95)
+            : 0,
+        gpuUsage:
+          selectedJob.status === 'running'
+            ? Math.min(85 + baseLoad * 0.1, 98)
+            : 0,
+        memoryUsage:
+          selectedJob.status === 'running'
+            ? Math.min(40 + baseLoad * 0.3, 80)
+            : 0,
       });
     };
 
@@ -106,7 +116,9 @@ export function MonitoringTab() {
       <h3 className="text-lg font-semibold mb-4">{t('monitoring.title')}</h3>
       <div className="space-y-4">
         <div className="bg-gray-50 p-3 rounded">
-          <div className="text-sm font-medium text-gray-700 mb-1">{t('monitoring.cpu_usage')}</div>
+          <div className="text-sm font-medium text-gray-700 mb-1">
+            {t('monitoring.cpu_usage')}
+          </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-blue-600 h-2 rounded-full transition-all duration-500"
@@ -121,7 +133,9 @@ export function MonitoringTab() {
         </div>
 
         <div className="bg-gray-50 p-3 rounded">
-          <div className="text-sm font-medium text-gray-700 mb-1">{t('monitoring.gpu_usage')}</div>
+          <div className="text-sm font-medium text-gray-700 mb-1">
+            {t('monitoring.gpu_usage')}
+          </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-green-600 h-2 rounded-full transition-all duration-500"
@@ -136,7 +150,9 @@ export function MonitoringTab() {
         </div>
 
         <div className="bg-gray-50 p-3 rounded">
-          <div className="text-sm font-medium text-gray-700 mb-1">{t('monitoring.memory_usage')}</div>
+          <div className="text-sm font-medium text-gray-700 mb-1">
+            {t('monitoring.memory_usage')}
+          </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-yellow-600 h-2 rounded-full transition-all duration-500"
@@ -151,7 +167,9 @@ export function MonitoringTab() {
 
         {monitoringData.diskUsage !== undefined && (
           <div className="bg-gray-50 p-3 rounded">
-            <div className="text-sm font-medium text-gray-700 mb-1">Disk Usage</div>
+            <div className="text-sm font-medium text-gray-700 mb-1">
+              Disk Usage
+            </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
                 className="bg-purple-600 h-2 rounded-full transition-all duration-500"
@@ -170,31 +188,29 @@ export function MonitoringTab() {
             <div className="text-xs text-gray-600 space-y-1">
               <div>
                 Job:
-                {' '}
                 {selectedJob.name}
               </div>
               <div>
                 Runtime:
-                {' '}
                 {selectedJob.runtime}
               </div>
               <div>
                 Region:
-                {' '}
                 {selectedJob.region}
               </div>
               <div>
                 Status:
                 {' '}
-                <span className={`capitalize ${
-                  selectedJob.status === 'running'
-                    ? 'text-green-600'
-                    : selectedJob.status === 'completed'
-                      ? 'text-blue-600'
-                      : selectedJob.status === 'failed'
-                        ? 'text-red-600'
-                        : 'text-yellow-600'
-                }`}
+                <span
+                  className={`capitalize ${
+                    selectedJob.status === 'running'
+                      ? 'text-green-600'
+                      : selectedJob.status === 'completed'
+                        ? 'text-blue-600'
+                        : selectedJob.status === 'failed'
+                          ? 'text-red-600'
+                          : 'text-yellow-600'
+                  }`}
                 >
                   {selectedJob.status}
                 </span>

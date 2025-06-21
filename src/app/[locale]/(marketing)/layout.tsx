@@ -21,7 +21,10 @@ export default async function Layout(props: {
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
             <div className="flex items-center">
-              <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+              <Link
+                href="/"
+                className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
+              >
                 {AppConfig.name}
               </Link>
             </div>
@@ -70,9 +73,7 @@ export default async function Layout(props: {
         </div>
       </header>
 
-      <main className="w-full">
-        {props.children}
-      </main>
+      <main className="w-full">{props.children}</main>
 
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,23 +81,68 @@ export default async function Layout(props: {
             <div className="col-span-1 md:col-span-2">
               <h3 className="text-xl font-bold mb-4">{AppConfig.name}</h3>
               <p className="text-gray-400 mb-4">
-                High-performance cloud computing platform for AI, ML, and scientific workloads.
+                High-performance cloud computing platform for AI, ML, and
+                scientific workloads.
               </p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Platform</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
-                <li><a href="https://docs.compute-platform.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Documentation</a></li>
-                <li><Link href="/sign-up" className="hover:text-white transition-colors">Get Started</Link></li>
+                <li>
+                  <Link
+                    href="/pricing"
+                    className="hover:text-white transition-colors"
+                  >
+                    Pricing
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="https://docs.compute-platform.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors"
+                  >
+                    Documentation
+                  </a>
+                </li>
+                <li>
+                  <Link
+                    href="/sign-up"
+                    className="hover:text-white transition-colors"
+                  >
+                    Get Started
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="mailto:support@compute-platform.com" className="hover:text-white transition-colors">Contact</a></li>
-                <li><a href="https://status.compute-platform.com" className="hover:text-white transition-colors">Status</a></li>
-                <li><a href="https://help.compute-platform.com" className="hover:text-white transition-colors">Help Center</a></li>
+                <li>
+                  <a
+                    href="mailto:support@compute-platform.com"
+                    className="hover:text-white transition-colors"
+                  >
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://status.compute-platform.com"
+                    className="hover:text-white transition-colors"
+                  >
+                    Status
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://help.compute-platform.com"
+                    className="hover:text-white transition-colors"
+                  >
+                    Help Center
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

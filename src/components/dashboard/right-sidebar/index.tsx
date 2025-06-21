@@ -80,10 +80,30 @@ export function RightSidebar() {
   };
 
   const detailOptions = [
-    { id: 'monitoring' as DetailType, icon: ChartBarIcon, label: t('monitoring.title'), color: 'text-blue-600' },
-    { id: 'logs' as DetailType, icon: DocumentTextIcon, label: t('logs.title'), color: 'text-green-600' },
-    { id: 'filesystem' as DetailType, icon: FolderIcon, label: t('filesystem.title'), color: 'text-orange-600' },
-    { id: 'gui' as DetailType, icon: ComputerDesktopIcon, label: t('gui.title'), color: 'text-indigo-600' },
+    {
+      id: 'monitoring' as DetailType,
+      icon: ChartBarIcon,
+      label: t('monitoring.title'),
+      color: 'text-blue-600',
+    },
+    {
+      id: 'logs' as DetailType,
+      icon: DocumentTextIcon,
+      label: t('logs.title'),
+      color: 'text-green-600',
+    },
+    {
+      id: 'filesystem' as DetailType,
+      icon: FolderIcon,
+      label: t('filesystem.title'),
+      color: 'text-orange-600',
+    },
+    {
+      id: 'gui' as DetailType,
+      icon: ComputerDesktopIcon,
+      label: t('gui.title'),
+      color: 'text-indigo-600',
+    },
   ];
 
   const openDetail = (detail: DetailType) => {
@@ -152,7 +172,9 @@ export function RightSidebar() {
               }`}
               title={option.label}
             >
-              <Icon className={`h-6 w-6 ${activeDetail === option.id ? option.color : 'text-gray-400'}`} />
+              <Icon
+                className={`h-6 w-6 ${activeDetail === option.id ? option.color : 'text-gray-400'}`}
+              />
             </button>
           );
         })}
@@ -173,7 +195,10 @@ export function RightSidebar() {
             </button>
           </div>
 
-          <div className="overflow-y-auto" style={{ height: 'calc(100vh - 73px)' }}>
+          <div
+            className="overflow-y-auto"
+            style={{ height: 'calc(100vh - 73px)' }}
+          >
             {renderDetailContent()}
           </div>
         </div>

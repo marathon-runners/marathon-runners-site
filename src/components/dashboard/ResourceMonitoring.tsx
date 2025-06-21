@@ -17,9 +17,9 @@ export function ResourceMonitoring({ job }: ResourceMonitoringProps) {
     // Generate realistic data based on job status and progress
     const baseLoad = job.status === 'running' ? job.progress : 0;
     return {
-      cpu: job.status === 'running' ? Math.min(75 + (baseLoad * 0.2), 95) : 0,
-      gpu: job.status === 'running' ? Math.min(85 + (baseLoad * 0.1), 98) : 0,
-      memory: job.status === 'running' ? Math.min(40 + (baseLoad * 0.3), 80) : 0,
+      cpu: job.status === 'running' ? Math.min(75 + baseLoad * 0.2, 95) : 0,
+      gpu: job.status === 'running' ? Math.min(85 + baseLoad * 0.1, 98) : 0,
+      memory: job.status === 'running' ? Math.min(40 + baseLoad * 0.3, 80) : 0,
     };
   };
 
@@ -33,7 +33,9 @@ export function ResourceMonitoring({ job }: ResourceMonitoringProps) {
       </h3>
       <div className="space-y-4">
         <div className="bg-gray-50 p-3 rounded">
-          <div className="text-sm font-medium text-gray-700 mb-1">CPU Usage</div>
+          <div className="text-sm font-medium text-gray-700 mb-1">
+            CPU Usage
+          </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-blue-600 h-2 rounded-full transition-all duration-500"
@@ -49,7 +51,9 @@ export function ResourceMonitoring({ job }: ResourceMonitoringProps) {
         </div>
 
         <div className="bg-gray-50 p-3 rounded">
-          <div className="text-sm font-medium text-gray-700 mb-1">GPU Usage</div>
+          <div className="text-sm font-medium text-gray-700 mb-1">
+            GPU Usage
+          </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-green-600 h-2 rounded-full transition-all duration-500"
@@ -65,7 +69,9 @@ export function ResourceMonitoring({ job }: ResourceMonitoringProps) {
         </div>
 
         <div className="bg-gray-50 p-3 rounded">
-          <div className="text-sm font-medium text-gray-700 mb-1">Memory Usage</div>
+          <div className="text-sm font-medium text-gray-700 mb-1">
+            Memory Usage
+          </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-yellow-600 h-2 rounded-full transition-all duration-500"

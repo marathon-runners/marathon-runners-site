@@ -11,7 +11,7 @@ const hardwareOptions = [
     type: 'GPU',
     memory: '80GB',
     cores: '6912 CUDA',
-    pricePerHour: 2.40,
+    pricePerHour: 2.4,
     availability: 95,
     popular: true,
   },
@@ -21,7 +21,7 @@ const hardwareOptions = [
     type: 'GPU',
     memory: '80GB',
     cores: '16896 CUDA',
-    pricePerHour: 4.20,
+    pricePerHour: 4.2,
     availability: 67,
     popular: false,
   },
@@ -31,7 +31,7 @@ const hardwareOptions = [
     type: 'GPU',
     memory: '24GB',
     cores: '16384 CUDA',
-    pricePerHour: 1.80,
+    pricePerHour: 1.8,
     availability: 89,
     popular: true,
   },
@@ -41,7 +41,7 @@ const hardwareOptions = [
     type: 'CPU',
     memory: '64GB',
     cores: '16 cores',
-    pricePerHour: 0.80,
+    pricePerHour: 0.8,
     availability: 98,
     popular: false,
   },
@@ -58,19 +58,26 @@ export function HardwareSelector() {
   const [selectedHardware, setSelectedHardware] = useState('a100');
   const [selectedRegion, setSelectedRegion] = useState('us-east-1');
 
-  const currentHardware = hardwareOptions.find(h => h.id === selectedHardware);
+  const currentHardware = hardwareOptions.find(
+    h => h.id === selectedHardware,
+  );
   const currentRegion = regions.find(r => r.id === selectedRegion);
-  const adjustedPrice = currentHardware && currentRegion
-    ? currentHardware.pricePerHour * currentRegion.multiplier
-    : 0;
+  const adjustedPrice
+    = currentHardware && currentRegion
+      ? currentHardware.pricePerHour * currentRegion.multiplier
+      : 0;
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Hardware Configuration</h2>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">
+        Hardware Configuration
+      </h2>
 
       {/* Hardware Options */}
       <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">Select Hardware</h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-3">
+          Select Hardware
+        </h3>
         <div className="space-y-3">
           {hardwareOptions.map(hardware => (
             <button
@@ -100,7 +107,9 @@ export function HardwareSelector() {
                       )}
 
                   <div>
-                    <div className="font-semibold text-gray-900">{hardware.name}</div>
+                    <div className="font-semibold text-gray-900">
+                      {hardware.name}
+                    </div>
                     <div className="text-sm text-gray-500">
                       {hardware.cores}
                       {' '}
@@ -129,7 +138,9 @@ export function HardwareSelector() {
 
       {/* Region Selection */}
       <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">Select Region</h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-3">
+          Select Region
+        </h3>
         <select
           value={selectedRegion}
           onChange={e => setSelectedRegion(e.target.value)}
@@ -139,7 +150,8 @@ export function HardwareSelector() {
             <option key={region.id} value={region.id}>
               {region.name}
               {' '}
-              {region.multiplier !== 1.0 && `(+${((region.multiplier - 1) * 100).toFixed(0)}%)`}
+              {region.multiplier !== 1.0
+                && `(+${((region.multiplier - 1) * 100).toFixed(0)}%)`}
             </option>
           ))}
         </select>
@@ -147,7 +159,9 @@ export function HardwareSelector() {
 
       {/* Configuration Summary */}
       <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">Configuration Summary</h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-3">
+          Configuration Summary
+        </h3>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-gray-600">Hardware:</span>

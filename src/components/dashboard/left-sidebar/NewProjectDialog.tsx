@@ -36,7 +36,10 @@ export function NewProjectDialog({
         <h3 className="text-lg font-semibold mb-4">Create New Project</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="project-name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="project-name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Project Name
             </label>
             <input
@@ -49,7 +52,10 @@ export function NewProjectDialog({
             />
           </div>
           <div>
-            <label htmlFor="project-description" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="project-description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Description
             </label>
             <textarea

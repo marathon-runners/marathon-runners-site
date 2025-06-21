@@ -13,11 +13,16 @@ export function JobHeader({ job }: JobHeaderProps) {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'running': return 'text-green-600 bg-green-100';
-      case 'completed': return 'text-blue-600 bg-blue-100';
-      case 'failed': return 'text-red-600 bg-red-100';
-      case 'pending': return 'text-yellow-600 bg-yellow-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'running':
+        return 'text-green-600 bg-green-100';
+      case 'completed':
+        return 'text-blue-600 bg-blue-100';
+      case 'failed':
+        return 'text-red-600 bg-red-100';
+      case 'pending':
+        return 'text-yellow-600 bg-yellow-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
     }
   };
 
@@ -41,12 +46,13 @@ export function JobHeader({ job }: JobHeaderProps) {
         <div>
           <h2 className="text-xl font-semibold text-gray-900">{job.name}</h2>
           <div className="flex items-center gap-4 mt-2">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(job.status)}`}>
+            <span
+              className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(job.status)}`}
+            >
               {getStatusLabel(job.status)}
             </span>
             <span className="text-sm text-gray-500">
               ID:
-              {' '}
               {job.id}
             </span>
           </div>
@@ -88,21 +94,29 @@ export function JobHeader({ job }: JobHeaderProps) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div>
           <div className="text-sm font-medium text-gray-500 mb-1">Hardware</div>
-          <div className="text-lg font-semibold text-gray-900">{job.hardwareType}</div>
+          <div className="text-lg font-semibold text-gray-900">
+            {job.hardwareType}
+          </div>
         </div>
 
         <div>
           <div className="text-sm font-medium text-gray-500 mb-1">Region</div>
-          <div className="text-lg font-semibold text-gray-900">{job.region}</div>
+          <div className="text-lg font-semibold text-gray-900">
+            {job.region}
+          </div>
         </div>
 
         <div>
           <div className="text-sm font-medium text-gray-500 mb-1">Runtime</div>
-          <div className="text-lg font-semibold text-gray-900">{job.runtime}</div>
+          <div className="text-lg font-semibold text-gray-900">
+            {job.runtime}
+          </div>
         </div>
 
         <div>
-          <div className="text-sm font-medium text-gray-500 mb-1">Total Cost</div>
+          <div className="text-sm font-medium text-gray-500 mb-1">
+            Total Cost
+          </div>
           <div className="text-lg font-semibold text-gray-900">
             $
             {job.totalCost.toFixed(2)}
@@ -116,12 +130,16 @@ export function JobHeader({ job }: JobHeaderProps) {
           <div className="flex items-center gap-2">
             <ClockIcon className="h-4 w-4 text-gray-400" />
             <span className="text-gray-500">Started:</span>
-            <span className="font-medium text-gray-900">{formatTime(job.startedAt)}</span>
+            <span className="font-medium text-gray-900">
+              {formatTime(job.startedAt)}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
             <span className="text-gray-500">Est. Completion:</span>
-            <span className="font-medium text-gray-900">{formatTime(job.estimatedCompletion)}</span>
+            <span className="font-medium text-gray-900">
+              {formatTime(job.estimatedCompletion)}
+            </span>
           </div>
         </div>
       </div>

@@ -18,7 +18,9 @@ export default async function ProjectDetail(props: ProjectDetailProps) {
       {/* TODO: Project budget and billing */}
 
       <div className="bg-gray-100 p-6 rounded-lg">
-        <h2 className="text-xl font-semibold mb-4">TODO: Project Detail Features</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          TODO: Project Detail Features
+        </h2>
         <ul className="space-y-2">
           <li>• Project information and settings</li>
           <li>• All jobs within this project</li>

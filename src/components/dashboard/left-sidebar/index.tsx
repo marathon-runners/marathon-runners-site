@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { useDashboard } from '@/components/dashboard/DashboardContext';
+import { useProjects } from '@/components/dashboard/ProjectsContext';
 import { NewJobDialog } from './NewJobDialog';
 import { NewProjectDialog } from './NewProjectDialog';
 import { ProjectItem } from './ProjectItem';
@@ -25,15 +25,22 @@ export function LeftSidebar() {
     createProject,
     updateProject,
     deleteProject,
-  } = useDashboard();
+  } = useProjects();
   const t = useTranslations('Dashboard');
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set([1])); // Default project expanded
+  const [expandedProjects, setExpandedProjects] = useState<Set<number>>(
+    new Set([1]),
+  ); // Default project expanded
   const [showNewJobDialog, setShowNewJobDialog] = useState(false);
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
-  const [showProjectSettingsDialog, setShowProjectSettingsDialog] = useState(false);
-  const [selectedProjectForJob, setSelectedProjectForJob] = useState<number | null>(null);
-  const [selectedProjectForSettings, setSelectedProjectForSettings] = useState<number | null>(null);
+  const [showProjectSettingsDialog, setShowProjectSettingsDialog]
+    = useState(false);
+  const [selectedProjectForJob, setSelectedProjectForJob] = useState<
+    number | null
+  >(null);
+  const [selectedProjectForSettings, setSelectedProjectForSettings] = useState<
+    number | null
+  >(null);
 
   const toggleProject = (projectId: number) => {
     const newExpanded = new Set(expandedProjects);
@@ -59,7 +66,11 @@ export function LeftSidebar() {
     setShowProjectSettingsDialog(true);
   };
 
-  const handleCreateJob = async (jobData: { name: string; description: string; projectId: number }) => {
+  const handleCreateJob = async (jobData: {
+    name: string;
+    description: string;
+    projectId: number;
+  }) => {
     try {
       await createJob(jobData);
     } catch (error) {
@@ -68,7 +79,10 @@ export function LeftSidebar() {
     }
   };
 
-  const handleCreateProject = async (projectData: { name: string; description: string }) => {
+  const handleCreateProject = async (projectData: {
+    name: string;
+    description: string;
+  }) => {
     try {
       await createProject(projectData);
     } catch (error) {
@@ -77,7 +91,10 @@ export function LeftSidebar() {
     }
   };
 
-  const handleUpdateProject = async (projectId: number, projectData: { name: string; description: string }) => {
+  const handleUpdateProject = async (
+    projectId: number,
+    projectData: { name: string; description: string },
+  ) => {
     try {
       await updateProject(projectId, projectData);
     } catch (error) {
@@ -123,7 +140,9 @@ export function LeftSidebar() {
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">{t('sidebar_title')}</h2>
+          <h2 className="text-lg font-semibold text-gray-900">
+            {t('sidebar_title')}
+          </h2>
           <button
             onClick={() => setIsCollapsed(true)}
             className="p-1 hover:bg-gray-100 rounded"

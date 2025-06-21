@@ -2,10 +2,10 @@
 
 import { DocumentTextIcon, FolderIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
-import { useDashboard } from '@/components/dashboard/DashboardContext';
+import { useProjects } from '@/components/dashboard/ProjectsContext';
 
 export function FilesystemTab() {
-  const { selectedJob } = useDashboard();
+  const { selectedJob } = useProjects();
   const t = useTranslations('Dashboard');
 
   if (!selectedJob) {

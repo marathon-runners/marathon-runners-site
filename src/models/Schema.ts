@@ -1,4 +1,14 @@
-import { boolean, decimal, integer, json, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  decimal,
+  integer,
+  json,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 // This file defines the structure of your database tables using the Drizzle ORM.
 
@@ -78,8 +88,12 @@ export const hardwarePricingSchema = pgTable('hardware_pricing', {
   hardwareType: varchar('hardware_type', { length: 100 }).notNull(),
   region: varchar('region', { length: 100 }).notNull(),
   pricePerHour: decimal('price_per_hour', { precision: 8, scale: 4 }).notNull(),
-  availability: decimal('availability', { precision: 5, scale: 2 }).default('100.00'), // percentage
-  lastUpdated: timestamp('last_updated', { mode: 'date' }).defaultNow().notNull(),
+  availability: decimal('availability', { precision: 5, scale: 2 }).default(
+    '100.00',
+  ), // percentage
+  lastUpdated: timestamp('last_updated', { mode: 'date' })
+    .defaultNow()
+    .notNull(),
 });
 
 // Legacy counter schema (keeping for migration compatibility)

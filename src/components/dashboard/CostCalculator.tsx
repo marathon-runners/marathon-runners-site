@@ -1,13 +1,16 @@
 'use client';
 
-import { CurrencyDollarIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import {
+  CurrencyDollarIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
 export function CostCalculator() {
   const [estimatedHours, setEstimatedHours] = useState(8);
-  const [hourlyRate] = useState(2.40); // This would come from hardware selection
+  const [hourlyRate] = useState(2.4); // This would come from hardware selection
   const [monthlyBudget] = useState(500);
-  const [currentMonthSpend] = useState(127.50);
+  const [currentMonthSpend] = useState(127.5);
 
   const totalCost = estimatedHours * hourlyRate;
   const projectedMonthlySpend = currentMonthSpend + totalCost;
@@ -26,7 +29,10 @@ export function CostCalculator() {
 
       {/* Estimated Duration Input */}
       <div className="mb-6">
-        <label htmlFor="estimated-hours" className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          htmlFor="estimated-hours"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
           Estimated Duration (hours)
         </label>
         <input
@@ -35,7 +41,8 @@ export function CostCalculator() {
           min="0.5"
           step="0.5"
           value={estimatedHours}
-          onChange={e => setEstimatedHours(Number.parseFloat(e.target.value) || 0)}
+          onChange={e =>
+            setEstimatedHours(Number.parseFloat(e.target.value) || 0)}
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
@@ -60,7 +67,9 @@ export function CostCalculator() {
         </div>
 
         <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-          <span className="text-lg font-medium text-gray-900">Estimated Cost:</span>
+          <span className="text-lg font-medium text-gray-900">
+            Estimated Cost:
+          </span>
           <span className="text-xl font-bold text-gray-900">
             $
             {totalCost.toFixed(2)}
@@ -70,13 +79,18 @@ export function CostCalculator() {
 
       {/* Budget Tracking */}
       <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-sm font-medium text-gray-700 mb-4">Monthly Budget Tracking</h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-4">
+          Monthly Budget Tracking
+        </h3>
 
         {/* Budget Alert */}
         {(isOverBudget || isNearBudget) && (
-          <div className={`flex items-center gap-2 p-3 rounded-lg mb-4 ${
-            isOverBudget ? 'bg-red-50 text-red-700' : 'bg-yellow-50 text-yellow-700'
-          }`}
+          <div
+            className={`flex items-center gap-2 p-3 rounded-lg mb-4 ${
+              isOverBudget
+                ? 'bg-red-50 text-red-700'
+                : 'bg-yellow-50 text-yellow-700'
+            }`}
           >
             <ExclamationTriangleIcon className="h-5 w-5" />
             <span className="text-sm font-medium">
@@ -99,7 +113,11 @@ export function CostCalculator() {
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className={`h-2 rounded-full transition-all duration-300 ${
-                isOverBudget ? 'bg-red-500' : isNearBudget ? 'bg-yellow-500' : 'bg-green-500'
+                isOverBudget
+                  ? 'bg-red-500'
+                  : isNearBudget
+                    ? 'bg-yellow-500'
+                    : 'bg-green-500'
               }`}
               style={{ width: `${Math.min(budgetUsagePercent, 100)}%` }}
             >
@@ -135,7 +153,9 @@ export function CostCalculator() {
 
           <div className="flex justify-between border-t pt-2 mt-2">
             <span className="text-gray-600">Budget Remaining:</span>
-            <span className={`font-semibold ${budgetRemaining < 0 ? 'text-red-600' : 'text-green-600'}`}>
+            <span
+              className={`font-semibold ${budgetRemaining < 0 ? 'text-red-600' : 'text-green-600'}`}
+            >
               $
               {budgetRemaining.toFixed(2)}
             </span>

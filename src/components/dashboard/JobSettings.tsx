@@ -1,15 +1,15 @@
 'use client';
 
-import { CogIcon } from '@heroicons/react/24/outline';
 import type { Job } from '@/types/Job';
-import { useDashboard } from './DashboardContext';
+import { CogIcon } from '@heroicons/react/24/outline';
+import { useProjects } from './ProjectsContext';
 
-interface JobSettingsProps {
+type JobSettingsProps = {
   job: Job;
-}
+};
 
 export function JobSettings({ job }: JobSettingsProps) {
-  const { updateJob } = useDashboard();
+  const { updateJob } = useProjects();
 
   const handleJobNameChange = (value: string) => {
     updateJob(job.id, { name: value });
@@ -19,13 +19,16 @@ export function JobSettings({ job }: JobSettingsProps) {
     updateJob(job.id, { description: value });
   };
 
-  const handleNotificationChange = (key: 'emailOnCompletion' | 'emailOnFailure' | 'slackNotifications', value: boolean) => {
+  const handleNotificationChange = (
+    key: 'emailOnCompletion' | 'emailOnFailure' | 'slackNotifications',
+    value: boolean,
+  ) => {
     const defaultNotifications = {
       emailOnCompletion: false,
       emailOnFailure: false,
       slackNotifications: false,
     };
-    
+
     updateJob(job.id, {
       notifications: {
         ...defaultNotifications,
@@ -35,13 +38,16 @@ export function JobSettings({ job }: JobSettingsProps) {
     });
   };
 
-  const handleAutoScalingChange = (key: 'enabled' | 'minInstances' | 'maxInstances', value: boolean | number) => {
+  const handleAutoScalingChange = (
+    key: 'enabled' | 'minInstances' | 'maxInstances',
+    value: boolean | number,
+  ) => {
     const defaultAutoScaling = {
       enabled: false,
       minInstances: 1,
       maxInstances: 5,
     };
-    
+
     updateJob(job.id, {
       autoScaling: {
         ...defaultAutoScaling,
@@ -59,10 +65,15 @@ export function JobSettings({ job }: JobSettingsProps) {
       <div className="space-y-6">
         {/* Job Configuration */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Job Configuration</h4>
+          <h4 className="text-sm font-medium text-gray-900 mb-3">
+            Job Configuration
+          </h4>
           <div className="space-y-4">
             <div>
-              <label htmlFor="job-name-setting" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="job-name-setting"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Job Name
               </label>
               <input
@@ -70,11 +81,14 @@ export function JobSettings({ job }: JobSettingsProps) {
                 type="text"
                 className="w-full border border-gray-300 rounded-md px-3 py-2"
                 value={job.name}
-                onChange={(e) => handleJobNameChange(e.target.value)}
+                onChange={e => handleJobNameChange(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="job-description-setting" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="job-description-setting"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Description
               </label>
               <textarea
@@ -83,7 +97,7 @@ export function JobSettings({ job }: JobSettingsProps) {
                 rows={3}
                 placeholder="Job description"
                 value={job.description || ''}
-                onChange={(e) => handleDescriptionChange(e.target.value)}
+                onChange={e => handleDescriptionChange(e.target.value)}
               />
             </div>
           </div>
@@ -91,32 +105,47 @@ export function JobSettings({ job }: JobSettingsProps) {
 
         {/* Notifications */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Notifications</h4>
+          <h4 className="text-sm font-medium text-gray-900 mb-3">
+            Notifications
+          </h4>
           <div className="space-y-3">
             <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="rounded border-gray-300 text-blue-600 mr-2" 
+              <input
+                type="checkbox"
+                className="rounded border-gray-300 text-blue-600 mr-2"
                 checked={job.notifications?.emailOnCompletion || false}
-                onChange={(e) => handleNotificationChange('emailOnCompletion', e.target.checked)}
+                onChange={e =>
+                  handleNotificationChange(
+                    'emailOnCompletion',
+                    e.target.checked,
+                  )}
               />
-              <span className="text-sm text-gray-700">Email on job completion</span>
+              <span className="text-sm text-gray-700">
+                Email on job completion
+              </span>
             </label>
             <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="rounded border-gray-300 text-blue-600 mr-2" 
+              <input
+                type="checkbox"
+                className="rounded border-gray-300 text-blue-600 mr-2"
                 checked={job.notifications?.emailOnFailure || false}
-                onChange={(e) => handleNotificationChange('emailOnFailure', e.target.checked)}
+                onChange={e =>
+                  handleNotificationChange('emailOnFailure', e.target.checked)}
               />
-              <span className="text-sm text-gray-700">Email on job failure</span>
+              <span className="text-sm text-gray-700">
+                Email on job failure
+              </span>
             </label>
             <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="rounded border-gray-300 text-blue-600 mr-2" 
+              <input
+                type="checkbox"
+                className="rounded border-gray-300 text-blue-600 mr-2"
                 checked={job.notifications?.slackNotifications || false}
-                onChange={(e) => handleNotificationChange('slackNotifications', e.target.checked)}
+                onChange={e =>
+                  handleNotificationChange(
+                    'slackNotifications',
+                    e.target.checked,
+                  )}
               />
               <span className="text-sm text-gray-700">Slack notifications</span>
             </label>
@@ -125,47 +154,64 @@ export function JobSettings({ job }: JobSettingsProps) {
 
         {/* Auto-scaling */}
         <div>
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Auto-scaling</h4>
+          <h4 className="text-sm font-medium text-gray-900 mb-3">
+            Auto-scaling
+          </h4>
           <div className="space-y-3">
             <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="rounded border-gray-300 text-blue-600 mr-2" 
+              <input
+                type="checkbox"
+                className="rounded border-gray-300 text-blue-600 mr-2"
                 checked={job.autoScaling?.enabled || false}
-                onChange={(e) => handleAutoScalingChange('enabled', e.target.checked)}
+                onChange={e =>
+                  handleAutoScalingChange('enabled', e.target.checked)}
               />
               <span className="text-sm text-gray-700">Enable auto-scaling</span>
             </label>
             <div className="ml-6 space-y-2">
               <div>
-                <label className="block text-xs text-gray-600 mb-1">Min instances</label>
-                <input 
-                  type="number" 
-                  className="w-20 border border-gray-300 rounded px-2 py-1 text-sm" 
+                <label htmlFor="min-instances" className="block text-xs text-gray-600 mb-1">
+                  Min instances
+                </label>
+                <input
+                  id="min-instances"
+                  type="number"
+                  className="w-20 border border-gray-300 rounded px-2 py-1 text-sm"
                   value={job.autoScaling?.minInstances || 1}
-                  onChange={(e) => handleAutoScalingChange('minInstances', parseInt(e.target.value, 10))}
+                  onChange={e =>
+                    handleAutoScalingChange(
+                      'minInstances',
+                      Number.parseInt(e.target.value, 10),
+                    )}
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-600 mb-1">Max instances</label>
-                <input 
-                  type="number" 
-                  className="w-20 border border-gray-300 rounded px-2 py-1 text-sm" 
+                <label htmlFor="max-instances" className="block text-xs text-gray-600 mb-1">
+                  Max instances
+                </label>
+                <input
+                  id="max-instances"
+                  type="number"
+                  className="w-20 border border-gray-300 rounded px-2 py-1 text-sm"
                   value={job.autoScaling?.maxInstances || 5}
-                  onChange={(e) => handleAutoScalingChange('maxInstances', parseInt(e.target.value, 10))}
+                  onChange={e =>
+                    handleAutoScalingChange(
+                      'maxInstances',
+                      Number.parseInt(e.target.value, 10),
+                    )}
                 />
               </div>
             </div>
           </div>
         </div>
 
-                  {/* Auto-save notification */}
-          <div className="pt-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500 italic">
-              Changes are saved automatically
-            </p>
-          </div>
+        {/* Auto-save notification */}
+        <div className="pt-4 border-t border-gray-200">
+          <p className="text-sm text-gray-500 italic">
+            Changes are saved automatically
+          </p>
+        </div>
       </div>
     </div>
   );
-} 
+}

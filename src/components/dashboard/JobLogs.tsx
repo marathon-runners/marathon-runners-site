@@ -43,7 +43,9 @@ export function JobLogs({ job }: JobLogsProps) {
         </div>
         {job.status === 'running' && (
           <>
-            <div className="text-yellow-400">[2024-01-15 10:30:40] Warning: High GPU utilization</div>
+            <div className="text-yellow-400">
+              [2024-01-15 10:30:40] Warning: High GPU utilization
+            </div>
             <div>[2024-01-15 10:30:45] Processing batch...</div>
             <div className="text-blue-400">
               [2024-01-15 10:30:50] Progress:
@@ -55,10 +57,14 @@ export function JobLogs({ job }: JobLogsProps) {
           </>
         )}
         {job.status === 'failed' && (
-          <div className="text-red-400">[2024-01-15 10:30:45] ERROR: Job execution failed</div>
+          <div className="text-red-400">
+            [2024-01-15 10:30:45] ERROR: Job execution failed
+          </div>
         )}
         {job.status === 'completed' && (
-          <div className="text-green-400">[2024-01-15 10:30:50] Job completed successfully</div>
+          <div className="text-green-400">
+            [2024-01-15 10:30:50] Job completed successfully
+          </div>
         )}
         <div className="text-gray-500">--- End of logs ---</div>
       </div>

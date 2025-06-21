@@ -46,11 +46,16 @@ export function ProjectItem({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'running': return 'text-green-600 bg-green-100';
-      case 'completed': return 'text-blue-600 bg-blue-100';
-      case 'failed': return 'text-red-600 bg-red-100';
-      case 'pending': return 'text-yellow-600 bg-yellow-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'running':
+        return 'text-green-600 bg-green-100';
+      case 'completed':
+        return 'text-blue-600 bg-blue-100';
+      case 'failed':
+        return 'text-red-600 bg-red-100';
+      case 'pending':
+        return 'text-yellow-600 bg-yellow-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
     }
   };
 
@@ -59,9 +64,13 @@ export function ProjectItem({
   };
 
   return (
-    <div className={project.isDefault ? '' : 'border border-gray-200 rounded-lg'}>
+    <div
+      className={project.isDefault ? '' : 'border border-gray-200 rounded-lg'}
+    >
       {/* Project Header */}
-      <div className={`flex items-center justify-between p-3 ${project.isDefault ? '' : 'hover:bg-gray-50'}`}>
+      <div
+        className={`flex items-center justify-between p-3 ${project.isDefault ? '' : 'hover:bg-gray-50'}`}
+      >
         <button
           onClick={() => onToggleProject(project.id)}
           className="flex items-center gap-2 flex-1 text-left"
@@ -75,7 +84,9 @@ export function ProjectItem({
               )}
           <span className="font-medium">
             {project.name}
-            {project.isDefault && <span className="text-xs text-gray-500 ml-1">(Default)</span>}
+            {project.isDefault && (
+              <span className="text-xs text-gray-500 ml-1">(Default)</span>
+            )}
           </span>
         </button>
 
@@ -111,10 +122,14 @@ export function ProjectItem({
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className={`text-sm ${selectedJobId === job.id ? 'text-blue-900 font-medium' : 'text-gray-700'}`}>
+                <span
+                  className={`text-sm ${selectedJobId === job.id ? 'text-blue-900 font-medium' : 'text-gray-700'}`}
+                >
                   {job.name}
                 </span>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(job.status)}`}>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(job.status)}`}
+                >
                   {getStatusLabel(job.status)}
                 </span>
               </div>

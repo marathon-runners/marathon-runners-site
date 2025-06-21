@@ -18,7 +18,7 @@ export type Project = {
   updatedAt: Date;
 };
 
-type DashboardContextType = {
+type ProjectsContextType = {
   jobs: Job[];
   projects: Project[];
   selectedJobId: number | null;
@@ -27,16 +27,28 @@ type DashboardContextType = {
   setSelectedJobId: (jobId: number | null) => void;
   getJobsByProject: (projectId: number) => Job[];
   updateJob: (jobId: number, updates: Partial<Job>) => Promise<void>;
-  createJob: (jobData: { name: string; description?: string; projectId: number }) => Promise<void>;
-  createProject: (projectData: { name: string; description?: string }) => Promise<void>;
-  updateProject: (projectId: number, projectData: { name: string; description?: string }) => Promise<void>;
+  createJob: (jobData: {
+    name: string;
+    description?: string;
+    projectId: number;
+  }) => Promise<void>;
+  createProject: (projectData: {
+    name: string;
+    description?: string;
+  }) => Promise<void>;
+  updateProject: (
+    projectId: number,
+    projectData: { name: string; description?: string },
+  ) => Promise<void>;
   deleteProject: (projectId: number) => Promise<void>;
   refreshData: () => Promise<void>;
 };
 
-const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
+const ProjectsContext = createContext<ProjectsContextType | undefined>(
+  undefined,
+);
 
-export function DashboardProvider({ children }: { children: ReactNode }) {
+export function ProjectsProvider({ children }: { children: ReactNode }) {
   const { user } = useUser();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -117,7 +129,11 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const handleCreateJob = async (jobData: { name: string; description?: string; projectId: number }) => {
+  const handleCreateJob = async (jobData: {
+    name: string;
+    description?: string;
+    projectId: number;
+  }) => {
     if (!user) {
       return;
     }
@@ -132,7 +148,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
           ...jobData,
           hardwareType: 'Intel Xeon', // Default hardware type
           region: 'US-East-1', // Default region
-          costPerHour: 0.80, // Default cost
+          costPerHour: 0.8, // Default cost
           notifications: {
             emailOnCompletion: true,
             emailOnFailure: true,
@@ -159,7 +175,10 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const handleCreateProject = async (projectData: { name: string; description?: string }) => {
+  const handleCreateProject = async (projectData: {
+    name: string;
+    description?: string;
+  }) => {
     if (!user) {
       return;
     }
@@ -185,7 +204,10 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const handleUpdateProject = async (projectId: number, projectData: { name: string; description?: string }) => {
+  const handleUpdateProject = async (
+    projectId: number,
+    projectData: { name: string; description?: string },
+  ) => {
     try {
       const response = await fetch('/api/projects', {
         method: 'PUT',
@@ -224,13 +246,17 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
       }
 
       // Remove project and its jobs from local state
-      setProjects(prevProjects => prevProjects.filter(p => p.id !== projectId));
+      setProjects(prevProjects =>
+        prevProjects.filter(p => p.id !== projectId),
+      );
       setJobs(prevJobs => prevJobs.filter(j => j.projectId !== projectId));
 
       // Clear selected job if it was in the deleted project
       if (selectedJob && selectedJob.projectId === projectId) {
         const remainingJobs = jobs.filter(j => j.projectId !== projectId);
-        setSelectedJobId(remainingJobs.length > 0 ? remainingJobs[0]?.id || null : null);
+        setSelectedJobId(
+          remainingJobs.length > 0 ? remainingJobs[0]?.id || null : null,
+        );
       }
     } catch (error) {
       console.error('Failed to delete project:', error);
@@ -239,7 +265,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <DashboardContext
+    <ProjectsContext
       value={{
         jobs,
         projects,
@@ -257,14 +283,14 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </DashboardContext>
+    </ProjectsContext>
   );
 }
 
-export function useDashboard() {
-  const context = use(DashboardContext);
+export function useProjects() {
+  const context = use(ProjectsContext);
   if (context === undefined) {
-    throw new Error('useDashboard must be used within a DashboardProvider');
+    throw new Error('useProjects must be used within a ProjectsProvider');
   }
   return context;
 }

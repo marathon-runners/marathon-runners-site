@@ -25,7 +25,9 @@ export default async function GUI(props: GUIProps) {
 
         <div className="border-2 border-gray-300 rounded p-4 h-96 bg-gray-100 flex items-center justify-center">
           <div className="text-center text-gray-500">
-            <div className="text-lg font-semibold mb-4">TODO: Remote GUI Interface</div>
+            <div className="text-lg font-semibold mb-4">
+              TODO: Remote GUI Interface
+            </div>
             <ul className="space-y-2">
               <li>• VNC/RDP remote desktop connection</li>
               <li>• Full-screen mode support</li>

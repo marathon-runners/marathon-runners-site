@@ -40,49 +40,58 @@ export default async function Index(props: IIndexProps) {
     {
       icon: CpuChipIcon,
       title: 'High-Performance GPUs',
-      description: 'Access NVIDIA H100, A100, and RTX series GPUs for AI/ML training and inference',
+      description:
+        'Access NVIDIA H100, A100, and RTX series GPUs for AI/ML training and inference',
     },
     {
       icon: CloudIcon,
       title: 'Scalable Infrastructure',
-      description: 'Scale from single instances to massive clusters with enterprise-grade reliability',
+      description:
+        'Scale from single instances to massive clusters with enterprise-grade reliability',
     },
     {
       icon: BoltIcon,
       title: 'Instant Deployment',
-      description: 'Deploy your workloads in seconds with our optimized container runtime',
+      description:
+        'Deploy your workloads in seconds with our optimized container runtime',
     },
     {
       icon: CurrencyDollarIcon,
       title: 'Pay-per-Use',
-      description: 'Only pay for compute time you actually use with transparent per-second billing',
+      description:
+        'Only pay for compute time you actually use with transparent per-second billing',
     },
     {
       icon: ShieldCheckIcon,
       title: 'Enterprise Security',
-      description: 'SOC 2 compliant infrastructure with end-to-end encryption and isolation',
+      description:
+        'SOC 2 compliant infrastructure with end-to-end encryption and isolation',
     },
     {
       icon: GlobeAltIcon,
       title: 'Global Availability',
-      description: 'Choose from multiple regions worldwide for optimal latency and compliance',
+      description:
+        'Choose from multiple regions worldwide for optimal latency and compliance',
     },
   ];
 
   const useCases = [
     {
       title: 'AI/ML Training',
-      description: 'Train large language models, computer vision, and deep learning models at scale',
+      description:
+        'Train large language models, computer vision, and deep learning models at scale',
       gradient: 'from-blue-500 to-purple-600',
     },
     {
       title: '3D Rendering',
-      description: 'Accelerate video production, architectural visualization, and animation workflows',
+      description:
+        'Accelerate video production, architectural visualization, and animation workflows',
       gradient: 'from-green-500 to-teal-600',
     },
     {
       title: 'Scientific Computing',
-      description: 'Run complex simulations, financial modeling, and research computations',
+      description:
+        'Run complex simulations, financial modeling, and research computations',
       gradient: 'from-orange-500 to-red-600',
     },
   ];
@@ -133,7 +142,8 @@ export default async function Index(props: IIndexProps) {
               Why Choose Our Platform?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Built for developers, researchers, and enterprises who need reliable, scalable compute power
+              Built for developers, researchers, and enterprises who need
+              reliable, scalable compute power
             </p>
           </div>
 
@@ -144,8 +154,12 @@ export default async function Index(props: IIndexProps) {
                   <div className="bg-gradient-to-br from-blue-500 to-purple-600 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <feature.icon className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -161,7 +175,8 @@ export default async function Index(props: IIndexProps) {
               Perfect for Every Workload
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From AI research to creative production, our platform scales to meet your needs
+              From AI research to creative production, our platform scales to
+              meet your needs
             </p>
           </div>
 
@@ -169,14 +184,20 @@ export default async function Index(props: IIndexProps) {
             {useCases.map((useCase, index) => (
               <div key={index} className="group cursor-pointer">
                 <div className="relative overflow-hidden rounded-2xl">
-                  <div className={`bg-gradient-to-br ${useCase.gradient} p-8 text-white min-h-[300px] flex flex-col justify-end transform transition-all duration-300 group-hover:scale-105`}>
+                  <div
+                    className={`bg-gradient-to-br ${useCase.gradient} p-8 text-white min-h-[300px] flex flex-col justify-end transform transition-all duration-300 group-hover:scale-105`}
+                  >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
                     <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12" />
 
                     <div className="relative z-10">
                       <SparklesIcon className="h-12 w-12 mb-4 opacity-80" />
-                      <h3 className="text-2xl font-bold mb-4">{useCase.title}</h3>
-                      <p className="text-white/90 leading-relaxed">{useCase.description}</p>
+                      <h3 className="text-2xl font-bold mb-4">
+                        {useCase.title}
+                      </h3>
+                      <p className="text-white/90 leading-relaxed">
+                        {useCase.description}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -191,19 +212,27 @@ export default async function Index(props: IIndexProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">99.9%</div>
+              <div className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">
+                99.9%
+              </div>
               <div className="text-gray-600 font-medium">Uptime SLA</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">10k+</div>
+              <div className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">
+                10k+
+              </div>
               <div className="text-gray-600 font-medium">Jobs Completed</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-green-600 mb-2">50+</div>
+              <div className="text-4xl lg:text-5xl font-bold text-green-600 mb-2">
+                50+
+              </div>
               <div className="text-gray-600 font-medium">GPU Types</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-orange-600 mb-2">24/7</div>
+              <div className="text-4xl lg:text-5xl font-bold text-orange-600 mb-2">
+                24/7
+              </div>
               <div className="text-gray-600 font-medium">Support</div>
             </div>
           </div>
@@ -217,7 +246,8 @@ export default async function Index(props: IIndexProps) {
             Ready to Accelerate Your Compute?
           </h2>
           <p className="text-xl mb-10 text-blue-100">
-            Join thousands of developers and researchers already using our platform
+            Join thousands of developers and researchers already using our
+            platform
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">

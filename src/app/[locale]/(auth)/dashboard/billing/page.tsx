@@ -11,12 +11,16 @@ export default function Billing() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Current Usage</h2>
-          <div className="text-gray-500">TODO: Current month usage and costs</div>
+          <div className="text-gray-500">
+            TODO: Current month usage and costs
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Budget Alerts</h2>
-          <div className="text-gray-500">TODO: Budget limits and notifications</div>
+          <div className="text-gray-500">
+            TODO: Budget limits and notifications
+          </div>
         </div>
       </div>
 

@@ -27,18 +27,25 @@ export function JobOverview({ job }: JobOverviewProps) {
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
             <div className="flex items-center gap-3 mb-4">
               <ClockIcon className="h-6 w-6 text-yellow-600" />
-              <h3 className="text-lg font-semibold text-yellow-800">Job Queued</h3>
+              <h3 className="text-lg font-semibold text-yellow-800">
+                Job Queued
+              </h3>
             </div>
             <p className="text-yellow-700 mb-4">
-              This job is waiting for available resources. Estimated start time depends on current queue and resource availability.
+              This job is waiting for available resources. Estimated start time
+              depends on current queue and resource availability.
             </p>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium text-yellow-800">Queue Position:</span>
+                <span className="font-medium text-yellow-800">
+                  Queue Position:
+                </span>
                 <span className="ml-2 text-yellow-700">#3</span>
               </div>
               <div>
-                <span className="font-medium text-yellow-800">Est. Start Time:</span>
+                <span className="font-medium text-yellow-800">
+                  Est. Start Time:
+                </span>
                 <span className="ml-2 text-yellow-700">~15 minutes</span>
               </div>
             </div>
@@ -52,7 +59,9 @@ export function JobOverview({ job }: JobOverviewProps) {
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
               <div className="flex items-center gap-3 mb-4">
                 <PlayIcon className="h-6 w-6 text-blue-600" />
-                <h3 className="text-lg font-semibold text-blue-800">Job Running</h3>
+                <h3 className="text-lg font-semibold text-blue-800">
+                  Job Running
+                </h3>
               </div>
               <div className="space-y-4">
                 <div>
@@ -76,13 +85,19 @@ export function JobOverview({ job }: JobOverviewProps) {
                     <span className="ml-2 text-blue-700">{job.runtime}</span>
                   </div>
                   <div>
-                    <span className="font-medium text-blue-800">Est. Completion:</span>
+                    <span className="font-medium text-blue-800">
+                      Est. Completion:
+                    </span>
                     <span className="ml-2 text-blue-700">
-                      {job.estimatedCompletion ? new Date(job.estimatedCompletion).toLocaleTimeString() : 'N/A'}
+                      {job.estimatedCompletion
+                        ? new Date(job.estimatedCompletion).toLocaleTimeString()
+                        : 'N/A'}
                     </span>
                   </div>
                   <div>
-                    <span className="font-medium text-blue-800">Current Cost:</span>
+                    <span className="font-medium text-blue-800">
+                      Current Cost:
+                    </span>
                     <span className="ml-2 text-blue-700">
                       $
                       {job.totalCost.toFixed(2)}
@@ -102,11 +117,15 @@ export function JobOverview({ job }: JobOverviewProps) {
           <div className="bg-green-50 border border-green-200 rounded-lg p-6">
             <div className="flex items-center gap-3 mb-4">
               <CheckCircleIcon className="h-6 w-6 text-green-600" />
-              <h3 className="text-lg font-semibold text-green-800">Job Completed Successfully</h3>
+              <h3 className="text-lg font-semibold text-green-800">
+                Job Completed Successfully
+              </h3>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
               <div>
-                <span className="font-medium text-green-800">Total Runtime:</span>
+                <span className="font-medium text-green-800">
+                  Total Runtime:
+                </span>
                 <span className="ml-2 text-green-700">{job.runtime}</span>
               </div>
               <div>
@@ -119,7 +138,9 @@ export function JobOverview({ job }: JobOverviewProps) {
               <div>
                 <span className="font-medium text-green-800">Completed:</span>
                 <span className="ml-2 text-green-700">
-                  {job.estimatedCompletion ? new Date(job.estimatedCompletion).toLocaleDateString() : 'N/A'}
+                  {job.estimatedCompletion
+                    ? new Date(job.estimatedCompletion).toLocaleDateString()
+                    : 'N/A'}
                 </span>
               </div>
               <div>
@@ -138,7 +159,8 @@ export function JobOverview({ job }: JobOverviewProps) {
               <h3 className="text-lg font-semibold text-red-800">Job Failed</h3>
             </div>
             <p className="text-red-700 mb-4">
-              The job encountered an error and was terminated. Check the logs for detailed error information.
+              The job encountered an error and was terminated. Check the logs
+              for detailed error information.
             </p>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
@@ -181,7 +203,9 @@ export function JobOverview({ job }: JobOverviewProps) {
       <div className="bg-white border border-gray-200 rounded-lg p-6">
         <div className="flex items-center gap-3 mb-4">
           <MapIcon className="h-6 w-6 text-gray-600" />
-          <h3 className="text-lg font-semibold text-gray-800">Global Compute Availability</h3>
+          <h3 className="text-lg font-semibold text-gray-800">
+            Global Compute Availability
+          </h3>
         </div>
         <ComputeProviderHeatmap />
       </div>
@@ -199,11 +223,15 @@ export function JobOverview({ job }: JobOverviewProps) {
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <div className="flex items-center gap-3 mb-4">
             <ChartBarIcon className="h-6 w-6 text-gray-600" />
-            <h3 className="text-lg font-semibold text-gray-800">Performance Analytics</h3>
+            <h3 className="text-lg font-semibold text-gray-800">
+              Performance Analytics
+            </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="font-medium text-gray-800 mb-2">CPU Utilization</h4>
+              <h4 className="font-medium text-gray-800 mb-2">
+                CPU Utilization
+              </h4>
               <div className="text-2xl font-bold text-blue-600">87.3%</div>
               <p className="text-sm text-gray-600">Average during runtime</p>
             </div>
@@ -213,7 +241,9 @@ export function JobOverview({ job }: JobOverviewProps) {
               <p className="text-sm text-gray-600">Peak usage</p>
             </div>
             <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="font-medium text-gray-800 mb-2">Cost Efficiency</h4>
+              <h4 className="font-medium text-gray-800 mb-2">
+                Cost Efficiency
+              </h4>
               <div className="text-2xl font-bold text-purple-600">$0.032</div>
               <p className="text-sm text-gray-600">Per compute unit</p>
             </div>

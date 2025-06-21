@@ -34,7 +34,9 @@ export default async function JobDetail(props: JobDetailProps) {
       </div>
 
       <div className="bg-gray-100 p-6 rounded-lg mt-6">
-        <h2 className="text-xl font-semibold mb-4">TODO: Job Detail Features</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          TODO: Job Detail Features
+        </h2>
         <ul className="space-y-2">
           <li>• Real-time job status and progress</li>
           <li>• Resource utilization metrics</li>

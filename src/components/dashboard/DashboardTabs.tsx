@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { useDashboard } from '@/components/dashboard/DashboardContext';
+import { useProjects } from '@/components/dashboard/ProjectsContext';
 import { JobLogs } from './JobLogs';
 import { JobOverview } from './JobOverview';
 import { JobSettings } from './JobSettings';
@@ -16,7 +16,7 @@ import { JobSettings } from './JobSettings';
 type TabType = 'overview' | 'logs' | 'settings';
 
 export function DashboardTabs() {
-  const { selectedJob, isLoading } = useDashboard();
+  const { selectedJob, isLoading } = useProjects();
   const t = useTranslations('Dashboard');
   const [activeTab, setActiveTab] = useState<TabType>('overview');
 
@@ -84,9 +84,7 @@ export function DashboardTabs() {
       </div>
 
       {/* Tab Content */}
-      <div className="min-h-[400px]">
-        {renderTabContent()}
-      </div>
+      <div className="min-h-[400px]">{renderTabContent()}</div>
     </div>
   );
 }

@@ -21,8 +21,12 @@ export default function Dashboard() {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Compute Dashboard</h1>
-        <p className="text-gray-600">Manage your jobs, projects, and compute resources</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          Compute Dashboard
+        </h1>
+        <p className="text-gray-600">
+          Manage your jobs, projects, and compute resources
+        </p>
       </div>
 
       {/* Tabbed Interface */}

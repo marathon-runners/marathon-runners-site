@@ -11,7 +11,11 @@ type NewJobDialogProps = {
   selectedProjectId: number | null;
   projects: Project[];
   onClose: () => void;
-  onCreateJob: (jobData: { name: string; description: string; projectId: number }) => void;
+  onCreateJob: (jobData: {
+    name: string;
+    description: string;
+    projectId: number;
+  }) => void;
 };
 
 export function NewJobDialog({
@@ -58,7 +62,10 @@ export function NewJobDialog({
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="job-name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="job-name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Job Name
             </label>
             <input
@@ -71,7 +78,10 @@ export function NewJobDialog({
             />
           </div>
           <div>
-            <label htmlFor="job-description" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="job-description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Description
             </label>
             <textarea

@@ -1,10 +1,7 @@
 'use client';
 
-import {
-  TrashIcon,
-  UserIcon,
-  UserPlusIcon,
-} from '@heroicons/react/24/outline';
+import { TrashIcon, UserIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 
 type Project = {
   id: number;
@@ -17,7 +14,10 @@ type ProjectSettingsDialogProps = {
   selectedProjectId: number | null;
   projects: Project[];
   onClose: () => void;
-  onUpdateProject: (projectId: number, projectData: { name: string; description: string }) => void;
+  onUpdateProject: (
+    projectId: number,
+    projectData: { name: string; description: string },
+  ) => void;
   onDeleteProject: (projectId: number) => void;
 };
 
@@ -29,6 +29,8 @@ export function ProjectSettingsDialog({
   onUpdateProject,
   onDeleteProject,
 }: ProjectSettingsDialogProps) {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   if (!isOpen || !selectedProjectId) {
     return null;
   }
@@ -55,11 +57,13 @@ export function ProjectSettingsDialog({
   };
 
   const handleDeleteProject = () => {
-    // eslint-disable-next-line no-alert
-    if (window.confirm('Are you sure you want to delete this project? This action cannot be undone and all jobs in this project will be deleted.')) {
-      onDeleteProject(selectedProjectId);
-      onClose();
-    }
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    onDeleteProject(selectedProjectId);
+    setShowDeleteConfirm(false);
+    onClose();
   };
 
   return (
@@ -74,10 +78,15 @@ export function ProjectSettingsDialog({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Project Details */}
           <div>
-            <h4 className="text-sm font-medium text-gray-900 mb-3">Project Details</h4>
+            <h4 className="text-sm font-medium text-gray-900 mb-3">
+              Project Details
+            </h4>
             <div className="space-y-3">
               <div>
-                <label htmlFor="edit-project-name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="edit-project-name"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Project Name
                 </label>
                 <input
@@ -90,7 +99,10 @@ export function ProjectSettingsDialog({
                 />
               </div>
               <div>
-                <label htmlFor="edit-project-description" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="edit-project-description"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Description
                 </label>
                 <textarea
@@ -106,7 +118,9 @@ export function ProjectSettingsDialog({
 
           {/* Team Management */}
           <div>
-            <h4 className="text-sm font-medium text-gray-900 mb-3">Team Members</h4>
+            <h4 className="text-sm font-medium text-gray-900 mb-3">
+              Team Members
+            </h4>
             <div className="space-y-2">
               <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
                 <div className="flex items-center gap-2">
@@ -127,17 +141,46 @@ export function ProjectSettingsDialog({
           {/* Danger Zone */}
           {!selectedProject.isDefault && (
             <div>
-              <h4 className="text-sm font-medium text-red-900 mb-3">Danger Zone</h4>
-              <button
-                type="button"
-                onClick={handleDeleteProject}
-                className="w-full p-3 border border-red-300 rounded text-red-700 hover:bg-red-50 flex items-center justify-center gap-2"
-              >
-                <TrashIcon className="h-4 w-4" />
-                Delete Project
-              </button>
+              <h4 className="text-sm font-medium text-red-900 mb-3">
+                Danger Zone
+              </h4>
+              {showDeleteConfirm
+                ? (
+                    <div className="space-y-3">
+                      <p className="text-sm text-red-700">
+                        Are you sure you want to delete this project? This action cannot be undone and all jobs in this project will be deleted.
+                      </p>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={confirmDelete}
+                          className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowDeleteConfirm(false)}
+                          className="px-3 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 text-sm"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )
+                : (
+                    <button
+                      type="button"
+                      onClick={handleDeleteProject}
+                      className="w-full p-3 border border-red-300 rounded text-red-700 hover:bg-red-50 flex items-center justify-center gap-2"
+                    >
+                      <TrashIcon className="h-4 w-4" />
+                      Delete Project
+                    </button>
+                  )}
               <p className="text-xs text-gray-500 mt-1">
-                This action cannot be undone. All jobs in this project will be deleted.
+                This action cannot be undone. All jobs in this project will be
+                deleted.
               </p>
             </div>
           )}

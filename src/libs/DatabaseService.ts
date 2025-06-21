@@ -1,6 +1,11 @@
 import type { Job } from '@/types/Job';
 import { and, desc, eq } from 'drizzle-orm';
-import { hardwarePricingSchema, jobsSchema, monitoringSchema, projectsSchema } from '@/models/Schema';
+import {
+  hardwarePricingSchema,
+  jobsSchema,
+  monitoringSchema,
+  projectsSchema,
+} from '@/models/Schema';
 import { db } from './DB';
 
 export type Project = {
@@ -66,12 +71,17 @@ export type HardwarePricing = {
 
 // Helper function to convert database job to frontend Job type
 function dbJobToJob(dbJob: DbJob): Job {
-  const calculateRuntime = (startedAt?: Date | null, completedAt?: Date | null, status?: string) => {
+  const calculateRuntime = (
+    startedAt?: Date | null,
+    completedAt?: Date | null,
+    status?: string,
+  ) => {
     if (!startedAt) {
       return '0h 0m';
     }
 
-    const endTime = completedAt || (status === 'running' ? new Date() : startedAt);
+    const endTime
+      = completedAt || (status === 'running' ? new Date() : startedAt);
     const diffMs = endTime.getTime() - startedAt.getTime();
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
@@ -144,6 +154,10 @@ export async function createProject(data: {
     })
     .returning();
 
+  if (!project) {
+    throw new Error('Failed to create project');
+  }
+
   return {
     id: project.id,
     name: project.name,
@@ -156,11 +170,14 @@ export async function createProject(data: {
   };
 }
 
-export async function updateProject(id: number, data: {
-  name?: string;
-  description?: string;
-  budget?: number;
-}): Promise<void> {
+export async function updateProject(
+  id: number,
+  data: {
+    name?: string;
+    description?: string;
+    budget?: number;
+  },
+): Promise<void> {
   await db
     .update(projectsSchema)
     .set({
@@ -208,10 +225,7 @@ export async function getJobsByProjectId(projectId: number): Promise<Job[]> {
 }
 
 export async function getJobById(id: number): Promise<Job | null> {
-  const [job] = await db
-    .select()
-    .from(jobsSchema)
-    .where(eq(jobsSchema.id, id));
+  const [job] = await db.select().from(jobsSchema).where(eq(jobsSchema.id, id));
 
   return job ? dbJobToJob(job as DbJob) : null;
 }
@@ -245,18 +259,21 @@ export async function createJob(data: {
   return dbJobToJob(job as DbJob);
 }
 
-export async function updateJob(id: number, data: Partial<{
-  name: string;
-  description: string;
-  status: string;
-  progress: number;
-  totalCost: number;
-  startedAt: Date;
-  completedAt: Date;
-  estimatedCompletion: Date;
-  notifications: any;
-  autoScaling: any;
-}>): Promise<void> {
+export async function updateJob(
+  id: number,
+  data: Partial<{
+    name: string;
+    description: string;
+    status: string;
+    progress: number;
+    totalCost: number;
+    startedAt: Date;
+    completedAt: Date;
+    estimatedCompletion: Date;
+    notifications: any;
+    autoScaling: any;
+  }>,
+): Promise<void> {
   await db
     .update(jobsSchema)
     .set({
@@ -276,7 +293,9 @@ export async function deleteJob(id: number): Promise<void> {
 }
 
 // Monitoring functions
-export async function getLatestMonitoringData(jobId: number): Promise<MonitoringData | null> {
+export async function getLatestMonitoringData(
+  jobId: number,
+): Promise<MonitoringData | null> {
   const [monitoring] = await db
     .select()
     .from(monitoringSchema)
@@ -289,11 +308,19 @@ export async function getLatestMonitoringData(jobId: number): Promise<Monitoring
         id: monitoring.id,
         jobId: monitoring.jobId,
         cpuUsage: monitoring.cpuUsage ? Number(monitoring.cpuUsage) : undefined,
-        memoryUsage: monitoring.memoryUsage ? Number(monitoring.memoryUsage) : undefined,
+        memoryUsage: monitoring.memoryUsage
+          ? Number(monitoring.memoryUsage)
+          : undefined,
         gpuUsage: monitoring.gpuUsage ? Number(monitoring.gpuUsage) : undefined,
-        networkIn: monitoring.networkIn ? Number(monitoring.networkIn) : undefined,
-        networkOut: monitoring.networkOut ? Number(monitoring.networkOut) : undefined,
-        diskUsage: monitoring.diskUsage ? Number(monitoring.diskUsage) : undefined,
+        networkIn: monitoring.networkIn
+          ? Number(monitoring.networkIn)
+          : undefined,
+        networkOut: monitoring.networkOut
+          ? Number(monitoring.networkOut)
+          : undefined,
+        diskUsage: monitoring.diskUsage
+          ? Number(monitoring.diskUsage)
+          : undefined,
         timestamp: monitoring.timestamp,
       }
     : null;
@@ -356,7 +383,9 @@ export async function getHardwarePricingByTypeAndRegion(
         hardwareType: pricing.hardwareType,
         region: pricing.region,
         pricePerHour: Number(pricing.pricePerHour),
-        availability: pricing.availability ? Number(pricing.availability) : undefined,
+        availability: pricing.availability
+          ? Number(pricing.availability)
+          : undefined,
         lastUpdated: pricing.lastUpdated,
       }
     : null;
