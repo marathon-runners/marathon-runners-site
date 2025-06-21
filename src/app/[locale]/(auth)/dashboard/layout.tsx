@@ -1,59 +1,26 @@
-import { SignOutButton } from '@clerk/nextjs';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
-import Link from 'next/link';
-import { LocaleSwitcher } from '@/components/LocaleSwitcher';
-import { BaseTemplate } from '@/templates/BaseTemplate';
+import type { ReactNode } from 'react';
+import { LeftSidebar } from '@/components/dashboard/LeftSidebar';
+import { RightSidebar } from '@/components/dashboard/RightSidebar';
 
-export default async function DashboardLayout(props: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+export default function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
 }) {
-  const { locale } = await props.params;
-  setRequestLocale(locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'DashboardLayout',
-  });
-
   return (
-    <BaseTemplate
-      leftNav={(
-        <>
-          <li>
-            <Link
-              href="/dashboard/"
-              className="border-none text-gray-700 hover:text-gray-900"
-            >
-              {t('dashboard_link')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/dashboard/user-profile/"
-              className="border-none text-gray-700 hover:text-gray-900"
-            >
-              {t('user_profile_link')}
-            </Link>
-          </li>
-        </>
-      )}
-      rightNav={(
-        <>
-          <li>
-            <SignOutButton>
-              <button className="border-none text-gray-700 hover:text-gray-900" type="button">
-                {t('sign_out')}
-              </button>
-            </SignOutButton>
-          </li>
+    <div className="h-screen flex overflow-hidden bg-gray-50">
+      {/* Left Sidebar */}
+      <LeftSidebar />
 
-          <li>
-            <LocaleSwitcher />
-          </li>
-        </>
-      )}
-    >
-      {props.children}
-    </BaseTemplate>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 overflow-y-auto">
+          {children}
+        </main>
+      </div>
+
+      {/* Right Sidebar */}
+      <RightSidebar />
+    </div>
   );
 }
