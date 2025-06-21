@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { CostCalculator } from '@/components/dashboard/CostCalculator';
 import { HardwareSelector } from '@/components/dashboard/HardwareSelector';
 import { JobDetails } from '@/components/dashboard/JobDetails';
@@ -6,10 +7,14 @@ export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await props.params;
+  const t = await getTranslations({
+    locale,
+    namespace: 'Dashboard',
+  });
 
   return {
-    title: 'Dashboard - Compute Platform',
-    description: 'Manage your compute jobs and resources',
+    title: t('meta_title'),
+    description: t('meta_description'),
   };
 }
 

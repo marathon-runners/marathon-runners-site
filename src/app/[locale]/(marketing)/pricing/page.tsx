@@ -1,4 +1,4 @@
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 type IPricingProps = {
   params: Promise<{ locale: string }>;
@@ -6,10 +6,14 @@ type IPricingProps = {
 
 export async function generateMetadata(props: IPricingProps) {
   const { locale } = await props.params;
+  const t = await getTranslations({
+    locale,
+    namespace: 'Pricing',
+  });
 
   return {
-    title: 'Pricing - Compute Platform',
-    description: 'Transparent pricing for GPU and CPU compute resources',
+    title: t('meta_title'),
+    description: t('meta_description'),
   };
 }
 
@@ -17,11 +21,16 @@ export default async function Pricing(props: IPricingProps) {
   const { locale } = await props.params;
   setRequestLocale(locale);
 
+  const t = await getTranslations({
+    locale,
+    namespace: 'Pricing',
+  });
+
   return (
     <div className="py-12">
       <div className="text-center mb-12">
-        <h1 className="text-3xl font-bold mb-4">Compute Pricing</h1>
-        <p className="text-gray-600">Pay only for what you use with transparent pricing</p>
+        <h1 className="text-3xl font-bold mb-4">{t('page_title')}</h1>
+        <p className="text-gray-600">{t('page_description')}</p>
       </div>
 
       {/* TODO: Add pricing tiers/cards */}

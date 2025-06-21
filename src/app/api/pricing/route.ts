@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 // TODO: Implement pricing API endpoints
-export async function GET(request: NextRequest) {
+export async function GET() {
   // TODO: Get current pricing for hardware types
   // TODO: Support regional pricing
   // TODO: Dynamic pricing based on availability
-  return NextResponse.json({ 
+  return NextResponse.json({
     message: 'TODO: Implement pricing API',
     features: [
       'Real-time pricing data',
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       'Hardware type pricing',
       'Volume discounts',
       'Availability-based pricing',
-      'Cost estimation tools'
-    ]
+      'Cost estimation tools',
+    ],
   });
 }

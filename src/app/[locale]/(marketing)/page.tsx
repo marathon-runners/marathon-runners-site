@@ -12,8 +12,8 @@ export async function generateMetadata(props: IIndexProps) {
   });
 
   return {
-    title: 'Compute Platform - High Performance Computing',
-    description: 'Access powerful GPU and CPU resources for your compute-intensive workloads',
+    title: t('meta_title'),
+    description: t('meta_description'),
   };
 }
 
@@ -21,14 +21,19 @@ export default async function Index(props: IIndexProps) {
   const { locale } = await props.params;
   setRequestLocale(locale);
 
+  const t = await getTranslations({
+    locale,
+    namespace: 'Index',
+  });
+
   return (
     <>
       <div className="text-center py-20">
         <h1 className="text-4xl font-bold mb-6">
-          High Performance Computing Platform
+          {t('hero_title')}
         </h1>
         <p className="text-xl text-gray-600 mb-8">
-          Access powerful GPU and CPU resources on-demand for your compute-intensive workloads
+          {t('hero_description')}
         </p>
 
         {/* TODO: Add hero section with key benefits */}

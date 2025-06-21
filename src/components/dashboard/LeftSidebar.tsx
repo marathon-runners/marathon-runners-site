@@ -2,40 +2,13 @@
 
 import { SignOutButton } from '@clerk/nextjs';
 import { ChevronDownIcon, ChevronRightIcon, PlusIcon, UserIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-
-// Mock data for development
-const mockProjects = [
-  {
-    id: 1,
-    name: 'Default Project',
-    isDefault: true,
-    jobs: [
-      { id: 1, name: 'ML Training Job', status: 'running' },
-      { id: 2, name: 'Data Processing', status: 'completed' },
-      { id: 3, name: 'Model Inference', status: 'pending' },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Research Project',
-    isDefault: false,
-    jobs: [
-      { id: 4, name: 'Simulation Run', status: 'running' },
-      { id: 5, name: 'Analysis Job', status: 'failed' },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Production Workloads',
-    isDefault: false,
-    jobs: [
-      { id: 6, name: 'Batch Processing', status: 'completed' },
-    ],
-  },
-];
+import { useDashboard } from '@/components/dashboard/DashboardContext';
 
 export function LeftSidebar() {
+  const { projects, getJobsByProject, selectedJobId, setSelectedJobId } = useDashboard();
+  const t = useTranslations('Dashboard');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set([1])); // Default project expanded
   const [showNewJobDialog, setShowNewJobDialog] = useState(false);
@@ -51,6 +24,10 @@ export function LeftSidebar() {
     setExpandedProjects(newExpanded);
   };
 
+  const handleJobClick = (jobId: number) => {
+    setSelectedJobId(jobId);
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'running': return 'text-green-600 bg-green-100';
@@ -61,9 +38,13 @@ export function LeftSidebar() {
     }
   };
 
+  const getStatusLabel = (status: string) => {
+    return t(`job_status.${status}` as any) || status;
+  };
+
   if (isCollapsed) {
     return (
-      <div className="w-16 bg-white shadow-lg flex flex-col">
+      <div className="w-16 bg-white shadow-lg flex flex-col h-full">
         <button
           onClick={() => setIsCollapsed(false)}
           className="p-4 hover:bg-gray-50"
@@ -75,11 +56,11 @@ export function LeftSidebar() {
   }
 
   return (
-    <div className="w-80 bg-white shadow-lg flex flex-col">
+    <div className="bg-white shadow-lg flex flex-col h-full">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">Compute Platform</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t('sidebar_title')}</h2>
           <button
             onClick={() => setIsCollapsed(true)}
             className="p-1 hover:bg-gray-100 rounded"
@@ -94,68 +75,77 @@ export function LeftSidebar() {
           className="w-full mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
         >
           <PlusIcon className="h-4 w-4" />
-          New Job
+          {t('new_job_button')}
         </button>
       </div>
 
       {/* Projects and Jobs */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="space-y-2">
-          {mockProjects.map(project => (
-            <div key={project.id} className="border border-gray-200 rounded-lg">
-              {/* Project Header */}
-              <div className="flex items-center justify-between p-3 hover:bg-gray-50">
-                <button
-                  onClick={() => toggleProject(project.id)}
-                  className="flex items-center gap-2 flex-1 text-left"
-                >
-                  {expandedProjects.has(project.id)
-                    ? (
-                        <ChevronDownIcon className="h-4 w-4" />
-                      )
-                    : (
-                        <ChevronRightIcon className="h-4 w-4" />
-                      )}
-                  <span className="font-medium">
-                    {project.name}
-                    {project.isDefault && <span className="text-xs text-gray-500 ml-1">(Default)</span>}
-                  </span>
-                </button>
+          {projects.map((project) => {
+            const projectJobs = getJobsByProject(project.id);
 
-                <button
-                  onClick={() => setShowNewProjectDialog(true)}
-                  className="p-1 hover:bg-gray-200 rounded"
-                >
-                  <PlusIcon className="h-4 w-4" />
-                </button>
-              </div>
+            return (
+              <div key={project.id} className="border border-gray-200 rounded-lg">
+                {/* Project Header */}
+                <div className="flex items-center justify-between p-3 hover:bg-gray-50">
+                  <button
+                    onClick={() => toggleProject(project.id)}
+                    className="flex items-center gap-2 flex-1 text-left"
+                  >
+                    {expandedProjects.has(project.id)
+                      ? (
+                          <ChevronDownIcon className="h-4 w-4" />
+                        )
+                      : (
+                          <ChevronRightIcon className="h-4 w-4" />
+                        )}
+                    <span className="font-medium">
+                      {project.name}
+                      {project.isDefault && <span className="text-xs text-gray-500 ml-1">(Default)</span>}
+                    </span>
+                  </button>
 
-              {/* Jobs List */}
-              {expandedProjects.has(project.id) && (
-                <div className="border-t border-gray-100">
-                  {project.jobs.map(job => (
-                    <div
-                      key={job.id}
-                      className="px-6 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-700">{job.name}</span>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(job.status)}`}>
-                          {job.status}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-
-                  {project.jobs.length === 0 && (
-                    <div className="px-6 py-3 text-sm text-gray-500 italic">
-                      No jobs in this project
-                    </div>
-                  )}
+                  <button
+                    onClick={() => setShowNewProjectDialog(true)}
+                    className="p-1 hover:bg-gray-200 rounded"
+                  >
+                    <PlusIcon className="h-4 w-4" />
+                  </button>
                 </div>
-              )}
-            </div>
-          ))}
+
+                {/* Jobs List */}
+                {expandedProjects.has(project.id) && (
+                  <div className="border-t border-gray-100">
+                    {projectJobs.map(job => (
+                      <button
+                        key={job.id}
+                        onClick={() => handleJobClick(job.id)}
+                        className={`w-full px-6 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0 transition-colors ${
+                          selectedJobId === job.id ? 'bg-blue-50 border-blue-200' : ''
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className={`text-sm ${selectedJobId === job.id ? 'text-blue-900 font-medium' : 'text-gray-700'}`}>
+                            {job.name}
+                          </span>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(job.status)}`}>
+                            {getStatusLabel(job.status)}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+
+                    {projectJobs.length === 0 && (
+                      <div className="px-6 py-3 text-sm text-gray-500 italic">
+                        No jobs in this project
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 

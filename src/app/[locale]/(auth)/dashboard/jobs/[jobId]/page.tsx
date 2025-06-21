@@ -4,16 +4,19 @@ type JobDetailProps = {
 
 export default async function JobDetail(props: JobDetailProps) {
   const { jobId } = await props.params;
-  
+
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Job: {jobId}</h1>
-      
+      <h1 className="text-2xl font-bold mb-6">
+        Job:
+        {jobId}
+      </h1>
+
       {/* TODO: Job status and controls */}
       {/* TODO: Job configuration display */}
       {/* TODO: Real-time metrics */}
       {/* TODO: Quick actions (stop, restart, clone) */}
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Job Information</h2>
@@ -21,7 +24,7 @@ export default async function JobDetail(props: JobDetailProps) {
             TODO: Status, hardware, runtime, cost
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
           <div className="text-gray-500">
@@ -29,7 +32,7 @@ export default async function JobDetail(props: JobDetailProps) {
           </div>
         </div>
       </div>
-      
+
       <div className="bg-gray-100 p-6 rounded-lg mt-6">
         <h2 className="text-xl font-semibold mb-4">TODO: Job Detail Features</h2>
         <ul className="space-y-2">
