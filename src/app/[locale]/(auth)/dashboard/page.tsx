@@ -1,7 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { CostCalculator } from '@/components/dashboard/CostCalculator';
-import { HardwareSelector } from '@/components/dashboard/HardwareSelector';
-import { JobDetails } from '@/components/dashboard/JobDetails';
+import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -27,14 +25,8 @@ export default function Dashboard() {
         <p className="text-gray-600">Manage your jobs, projects, and compute resources</p>
       </div>
 
-      {/* Job Details Section */}
-      <JobDetails />
-
-      {/* Hardware Selection and Cost Calculator Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <HardwareSelector />
-        <CostCalculator />
-      </div>
+      {/* Tabbed Interface */}
+      <DashboardTabs />
     </div>
   );
 }

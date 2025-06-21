@@ -1,13 +1,16 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import type { Job } from '@/types/Job';
+
 import { createContext, use, useState } from 'react';
 
 // Mock jobs data
-export const mockJobs = [
+export const mockJobs: Job[] = [
   {
     id: 1,
     name: 'ML Training Job',
+    description: 'Training a large language model on customer data',
     status: 'running' as const,
     progress: 65,
     projectId: 1,
@@ -18,10 +21,21 @@ export const mockJobs = [
     costPerHour: 2.40,
     totalCost: 15.60,
     runtime: '6h 30m',
+    notifications: {
+      emailOnCompletion: true,
+      emailOnFailure: false,
+      slackNotifications: false,
+    },
+    autoScaling: {
+      enabled: false,
+      minInstances: 1,
+      maxInstances: 5,
+    },
   },
   {
     id: 2,
     name: 'Data Processing',
+    description: 'Processing customer analytics data',
     status: 'completed' as const,
     progress: 100,
     projectId: 1,
@@ -32,6 +46,16 @@ export const mockJobs = [
     costPerHour: 0.80,
     totalCost: 3.20,
     runtime: '4h 0m',
+    notifications: {
+      emailOnCompletion: true,
+      emailOnFailure: true,
+      slackNotifications: false,
+    },
+    autoScaling: {
+      enabled: false,
+      minInstances: 1,
+      maxInstances: 3,
+    },
   },
   {
     id: 3,
@@ -46,10 +70,21 @@ export const mockJobs = [
     costPerHour: 1.98,
     totalCost: 0,
     runtime: '0h 0m',
+    notifications: {
+      emailOnCompletion: false,
+      emailOnFailure: false,
+      slackNotifications: true,
+    },
+    autoScaling: {
+      enabled: true,
+      minInstances: 2,
+      maxInstances: 10,
+    },
   },
   {
     id: 4,
     name: 'Simulation Run',
+    description: 'Running physics simulation for research',
     status: 'running' as const,
     progress: 35,
     projectId: 2,
@@ -60,10 +95,21 @@ export const mockJobs = [
     costPerHour: 5.46,
     totalCost: 21.84,
     runtime: '2h 15m',
+    notifications: {
+      emailOnCompletion: true,
+      emailOnFailure: true,
+      slackNotifications: true,
+    },
+    autoScaling: {
+      enabled: true,
+      minInstances: 1,
+      maxInstances: 8,
+    },
   },
   {
     id: 5,
     name: 'Analysis Job',
+    description: 'Statistical analysis of experimental data',
     status: 'failed' as const,
     progress: 23,
     projectId: 2,
@@ -74,10 +120,21 @@ export const mockJobs = [
     costPerHour: 2.40,
     totalCost: 1.84,
     runtime: '0h 46m',
+    notifications: {
+      emailOnCompletion: false,
+      emailOnFailure: true,
+      slackNotifications: false,
+    },
+    autoScaling: {
+      enabled: false,
+      minInstances: 1,
+      maxInstances: 5,
+    },
   },
   {
     id: 6,
     name: 'Batch Processing',
+    description: 'Batch processing of log files',
     status: 'completed' as const,
     progress: 100,
     projectId: 3,
@@ -88,6 +145,16 @@ export const mockJobs = [
     costPerHour: 0.92,
     totalCost: 5.52,
     runtime: '6h 0m',
+    notifications: {
+      emailOnCompletion: true,
+      emailOnFailure: false,
+      slackNotifications: false,
+    },
+    autoScaling: {
+      enabled: false,
+      minInstances: 1,
+      maxInstances: 4,
+    },
   },
 ];
 
@@ -109,7 +176,6 @@ export const mockProjects = [
   },
 ];
 
-export type Job = typeof mockJobs[0];
 export type Project = typeof mockProjects[0];
 
 type DashboardContextType = {
@@ -119,28 +185,39 @@ type DashboardContextType = {
   selectedJob: Job | null;
   setSelectedJobId: (jobId: number | null) => void;
   getJobsByProject: (projectId: number) => Job[];
+  updateJob: (jobId: number, updates: Partial<Job>) => void;
 };
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
 export function DashboardProvider({ children }: { children: ReactNode }) {
+  const [jobs, setJobs] = useState<Job[]>(mockJobs);
   const [selectedJobId, setSelectedJobId] = useState<number | null>(1); // Default to first job
 
-  const selectedJob = mockJobs.find(job => job.id === selectedJobId) || null;
+  const selectedJob = jobs.find(job => job.id === selectedJobId) || null;
 
   const getJobsByProject = (projectId: number) => {
-    return mockJobs.filter(job => job.projectId === projectId);
+    return jobs.filter(job => job.projectId === projectId);
+  };
+
+  const updateJob = (jobId: number, updates: Partial<Job>) => {
+    setJobs(prevJobs =>
+      prevJobs.map(job =>
+        job.id === jobId ? { ...job, ...updates } : job,
+      ),
+    );
   };
 
   return (
     <DashboardContext
       value={{
-        jobs: mockJobs,
+        jobs,
         projects: mockProjects,
         selectedJobId,
         selectedJob,
         setSelectedJobId,
         getJobsByProject,
+        updateJob,
       }}
     >
       {children}
