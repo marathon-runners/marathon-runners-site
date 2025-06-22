@@ -20,6 +20,10 @@ const isAuthPage = createRouteMatcher([
   '/:locale/sign-up(.*)',
 ]);
 
+const isApiRoute = createRouteMatcher([
+  '/api(.*)',
+]);
+
 // Improve security with Arcjet
 const aj = arcjet.withRule(
   detectBot({
@@ -49,7 +53,7 @@ export default async function middleware(
   }
 
   // Clerk keyless mode doesn't work with i18n, this is why we need to run the middleware conditionally
-  if (isAuthPage(request) || isProtectedRoute(request)) {
+  if (isAuthPage(request) || isProtectedRoute(request) || isApiRoute(request)) {
     return clerkMiddleware(async (auth, req) => {
       if (isProtectedRoute(req)) {
         const locale
@@ -62,6 +66,11 @@ export default async function middleware(
         });
       }
 
+      // For API routes, don't apply i18n routing
+      if (isApiRoute(req)) {
+        return NextResponse.next();
+      }
+
       return handleI18nRouting(request);
     })(request, event);
   }
@@ -71,7 +80,8 @@ export default async function middleware(
 
 export const config = {
   // Match all pathnames except for
-  // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
+  // - … if they start with `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
+  // - … monitoring routes
   matcher: '/((?!_next|_vercel|monitoring|.*\\..*).*)',
 };
