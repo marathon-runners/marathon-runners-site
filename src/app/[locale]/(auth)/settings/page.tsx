@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  ArrowLeftIcon,
   BellIcon,
   CreditCardIcon,
   EyeIcon,
@@ -11,6 +12,7 @@ import {
   TrashIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { useUserProfile } from '@/components/dashboard/UserContext';
@@ -167,6 +169,17 @@ function SettingsContent() {
                 />
               ))}
             </nav>
+
+            {/* Back to Dashboard Button */}
+            <div className="mt-8">
+              <Link
+                href="/dashboard"
+                className="w-full flex items-center gap-3 px-3 py-2 text-left text-sm font-medium rounded-lg transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-gray-200"
+              >
+                <ArrowLeftIcon className="h-5 w-5" />
+                Back to Dashboard
+              </Link>
+            </div>
           </div>
           <div className="flex-1">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -847,10 +860,10 @@ function SettingsContent() {
                     account problems.
                   </p>
                   <a
-                    href="mailto:support@compute-platform.com"
+                    href="mailto:hello@marathon-runners.com"
                     className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                   >
-                    support@compute-platform.com
+                    hello@marathon-runners.com
                   </a>
                 </div>
                 <div className="border border-gray-200 rounded-lg p-4">
@@ -872,7 +885,7 @@ function SettingsContent() {
               </h3>
               <div className="space-y-3">
                 <a
-                  href="https://docs.compute-platform.com/getting-started"
+                  href="https://docs.marathon-runners.com/getting-started"
                   className="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
                 >
                   <div className="font-medium text-gray-900">
@@ -883,7 +896,7 @@ function SettingsContent() {
                   </div>
                 </a>
                 <a
-                  href="https://docs.compute-platform.com/api"
+                  href="https://docs.marathon-runners.com/api"
                   className="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
                 >
                   <div className="font-medium text-gray-900">
@@ -894,7 +907,7 @@ function SettingsContent() {
                   </div>
                 </a>
                 <a
-                  href="https://docs.compute-platform.com/troubleshooting"
+                  href="https://docs.marathon-runners.com/troubleshooting"
                   className="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
                 >
                   <div className="font-medium text-gray-900">
@@ -922,7 +935,7 @@ function SettingsContent() {
                   All services are running normally. Last updated: 2 minutes ago
                 </div>
                 <a
-                  href="https://status.compute-platform.com"
+                  href="https://status.marathon-runners.com"
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                 >
                   View Status Page →
@@ -978,6 +991,17 @@ function SettingsContent() {
               );
             })}
           </nav>
+
+          {/* Back to Dashboard Button */}
+          <div className="mt-8">
+            <Link
+              href="/dashboard"
+              className="w-full flex items-center gap-3 px-3 py-2 text-left text-sm font-medium rounded-lg transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-gray-200"
+            >
+              <ArrowLeftIcon className="h-5 w-5" />
+              Back to Dashboard
+            </Link>
+          </div>
         </div>
 
         {/* Main Content */}
@@ -1007,6 +1031,17 @@ export default function Settings() {
                   />
                 ))}
               </nav>
+
+              {/* Back to Dashboard Button */}
+              <div className="mt-8">
+                <Link
+                  href="/dashboard"
+                  className="w-full flex items-center gap-3 px-3 py-2 text-left text-sm font-medium rounded-lg transition-colors text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-gray-200"
+                >
+                  <ArrowLeftIcon className="h-5 w-5" />
+                  Back to Dashboard
+                </Link>
+              </div>
             </div>
             <div className="flex-1">
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">

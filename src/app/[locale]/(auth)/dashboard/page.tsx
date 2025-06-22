@@ -16,7 +16,11 @@ export async function generateMetadata(props: {
   };
 }
 
-export default function Dashboard() {
+export default async function Dashboard(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: _locale } = await props.params;
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}

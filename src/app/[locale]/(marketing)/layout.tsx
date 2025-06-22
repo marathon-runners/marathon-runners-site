@@ -45,7 +45,7 @@ export default async function Layout(props: {
               </Link>
               <a
                 className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
-                href="https://docs.compute-platform.com"
+                href="https://docs.marathon-runners.com"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -98,7 +98,7 @@ export default async function Layout(props: {
                 </li>
                 <li>
                   <a
-                    href="https://docs.compute-platform.com"
+                    href="https://docs.marathon-runners.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-white transition-colors"
@@ -121,7 +121,7 @@ export default async function Layout(props: {
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <a
-                    href="mailto:support@compute-platform.com"
+                    href="mailto:hello@marathon-runners.com"
                     className="hover:text-white transition-colors"
                   >
                     Contact
@@ -129,7 +129,7 @@ export default async function Layout(props: {
                 </li>
                 <li>
                   <a
-                    href="https://status.compute-platform.com"
+                    href="https://status.marathon-runners.com"
                     className="hover:text-white transition-colors"
                   >
                     Status
@@ -137,7 +137,7 @@ export default async function Layout(props: {
                 </li>
                 <li>
                   <a
-                    href="https://help.compute-platform.com"
+                    href="https://help.marathon-runners.com"
                     className="hover:text-white transition-colors"
                   >
                     Help Center

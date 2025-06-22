@@ -1,4 +1,8 @@
-export default function Billing() {
+export default async function Billing(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: _locale } = await props.params;
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Billing & Budget</h1>
